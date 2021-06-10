@@ -6,13 +6,16 @@ class Ingame :
 public:
     Ingame(int type);
 
-    Texture* bg;
-    ScrollMap* map;
-    Texture* Img;
-    Texture* BackGround;
+    // UI
+    Texture* Ui_base;
+    Button* Ui_pause;
 
+    //OBJECT
+    Obj* player;
+
+    float Y = 60;
     int type;
-    int enemy_count = 4;
+    int enemy_count = 3;
 
     // Scene을(를) 통해 상속됨
     virtual void Init() override;

@@ -64,7 +64,6 @@ void Player::Update()
 		IMG->ReLoad("BG1");
 		SCENE->Set("fail");
 	}
-	/*Over->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1, D3DCOLOR_RGBA(0, 0, 0, 255));*/
 
 
 	main_col->Set(pos, 5, 5);
@@ -89,25 +88,6 @@ void Player::Update()
 
 	if (INPUT->Press(VK_UP))
 	{
-		num = 1;
-	}
-	if (INPUT->Press(VK_DOWN))
-	{
-		num = 2;
-	}
-
-	if (INPUT->Press(VK_LEFT))
-	{
-		num = 3;
-	}
-
-	if (INPUT->Press(VK_RIGHT))
-	{
-		num = 4;
-	}
-	switch (num)
-	{
-	case 1:
 		rot = 0;
 		for (size_t i = 0; i < speed; i++)
 		{
@@ -138,8 +118,9 @@ void Player::Update()
 				if (!Near(key, 3))
 					DrawLine();
 		}
-		break;
-	case 2:
+	}
+	if (INPUT->Press(VK_DOWN))
+	{
 		rot = 180;
 		for (size_t i = 0; i < speed; i++)
 		{
@@ -168,8 +149,10 @@ void Player::Update()
 				if (!Near(key, 3))
 					DrawLine();
 		}
-		break;
-	case 3:
+	}
+
+	if (INPUT->Press(VK_LEFT))
+	{
 		rot = 270;
 		for (size_t i = 0; i < speed; i++)
 		{
@@ -198,8 +181,10 @@ void Player::Update()
 				if (!Near(key, 3))
 					DrawLine();
 		}
-		break;
-	case 4:
+	}
+
+	if (INPUT->Press(VK_RIGHT))
+	{
 		rot = 90;
 		for (size_t i = 0; i < speed; i++)
 		{
@@ -228,7 +213,6 @@ void Player::Update()
 				if (!Near(key, 3))
 					DrawLine();
 		}
-		break;
 	}
 	if (INPUT->Down(VK_F8))
 		coloring_per = 100;

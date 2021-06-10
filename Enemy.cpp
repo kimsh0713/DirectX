@@ -166,12 +166,10 @@ void Enemy::Update()
 void Enemy::Render()
 {
 	main_col->Draw();
-	/*for (auto& i : fxs)
-		i->Render();*/
 	rot += spin_force;
 	if (rot >= 360)
 		rot = 0;
-	img->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(0), 0);
+	img->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(0), 0.3);
 }
 
 void Enemy::Release()

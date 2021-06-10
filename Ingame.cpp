@@ -4,17 +4,20 @@
 extern int score;
 
 Ingame::Ingame(int type)
-	:bg(), map(), type(type)
+	:type(type)
 {
 }
 
 void Ingame::Init()
 {
+	// 플레이어 추가 / 플레이어 찾기
+	OBJ->Add(new Player, "player")->pos = { CENTER.x,float(B) };
+	player = OBJ->Find("player");
+
+	Ui_base = IMG->Add("ui_ingame_base");
+	Ui_pause = new Button(IMG->Add("ui_ingame_pause button"), { V2(WINX / 2, WINY / Y) }, "", 300, 150, 0.2, [&]()->void {SCENE->Set("title"); });
+
 	OBJ->Add(new Mouse, "Mouse");
-
-	Img = IMG->Add("stage");
-
-	 //BackGround = IMG->Add("BackGround");
 
 	switch (type)
 	{
@@ -27,17 +30,9 @@ void Ingame::Init()
 		Player::coloring_per = 0;
 		OBJ->Add(new Enemy(8), "Boss")->pos = CENTER;
 	}
-	OBJ->Add(new Player, "player")->pos = { CENTER.x,float(B) };
 
-	for (size_t i = 0; i < enemy_count - 3; i++)
-	{
-		OBJ->Add(new Enemy(1), "Enemy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		//OBJ->Add(new Enemy(2), "Enemy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-	}
-
-	OBJ->Add(new Enemy(1),"Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-	OBJ->Add(new Enemy(2),"Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-	//OBJ->Add(new Enemy(3),"Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+	OBJ->Add(new Enemy(1), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+	OBJ->Add(new Enemy(2), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
 }
 
 void Ingame::Update()
@@ -55,21 +50,24 @@ void Ingame::Update()
 			break;
 		}
 	}
-
-	//if (map)
-	//	map->Update(500);
+	// 플레이어가 y130자표 이상 올라가면 Ui 올라감.	Player.y < 200
+	if (player->pos.y <= 130)
+	{
+		if (Y > -18)
+			Y -= 4;
+	}
+	else
+	{
+		if (Y < 60)
+			Y += 4;
+	}
 }
 
 void Ingame::Render()
 {
-	/*if (map)
-		map->Render();*/
-	//BackGround->Render();
-	Img->Render({ CENTER.x - 650, CENTER.y - 400 }, RT_ZERO, { 1,1 }, 0, 0);
-	
+	Ui_base->Render({ WINX / 2, Y }, RT_ZERO, { 1,1 }, 0, 0.2);
 }
 
 void Ingame::Release()
 {
-	SAFE_DELETE(map);
 }
