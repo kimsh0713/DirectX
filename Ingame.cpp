@@ -10,7 +10,9 @@ Ingame::Ingame(int type)
 
 void Ingame::Init()
 {
-	// 플레이어 추가 / 플레이어 찾기
+	// 마우스 추가
+	OBJ->Add(new Mouse, "Mouse");
+
 
 	Ui_base = IMG->Add("ui_ingame_base");
 	Ui_pause = new Button(IMG->Add("ui_ingame_pause button"), { 80 , Y - 10}, "", 60, 60, 0.2, [&]()->void {SCENE->Set("title"); });
@@ -28,6 +30,7 @@ void Ingame::Init()
 		Player::coloring_per = 0;
 		OBJ->Add(new Enemy(8), "Boss")->pos = CENTER;
 	}
+	// 플레이어 추가 / 플레이어 찾기
 	OBJ->Add(new Player, "player")->pos = { CENTER.x,float(B) };
 	player = OBJ->Find("player");
 
@@ -37,6 +40,12 @@ void Ingame::Init()
 
 void Ingame::Update()
 {
+	// M 누르면 마우스 추가
+	if (INPUT->Down('M'))
+	{
+		OBJ->Add(new Mouse, "Mouse");
+	}
+
 	if (Player::coloring_per >= 80)
 	{
 		switch (type)

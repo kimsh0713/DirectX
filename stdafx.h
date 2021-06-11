@@ -33,7 +33,7 @@ static bool WIN = true;
 static float time_scale = 1;
 static int score = 0;
 
-const bool ColDraw = false;
+const bool ColDraw = true;
 
 enum Tag
 {

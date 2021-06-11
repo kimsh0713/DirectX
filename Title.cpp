@@ -32,7 +32,7 @@ void Title::Init()
 		bg = IMG->Add("title_background");
 		boy = IMG->Add("title_boy");
 		clock = IMG->Add("title_clock");
-		start = new Button(IMG->Add("title_button_start"), { V2(WINX / 2 - 450, WINY / 2 + 125) }, "", 300, 150, 1, [&]()->void {SCENE->Set("stage1"); });
+		start = new Button(IMG->Add("title_button_start"), { V2(WINX / 2 - 450, WINY / 2 + 125) }, "", 300, 150, 1, [&]()->void {SCENE->Set("stage1"); IMG->ReLoad("BG1"); });
 		credit = new Button(IMG->Add("title_button_credit"), { V2(WINX / 2, WINY / 2 + 125) }, "", 300, 150, 1, [&]()->void { });
 		howto = new Button(IMG->Add("title_button_howto"), { V2(WINX / 2 + 450, WINY / 2 + 125) }, "", 300, 150, 1, [&]()->void { });
 		exit = new Button(IMG->Add("title_button_exit"), { V2(100, WINY - 110) }, "", 110, 110, 1, [&]()->void {PostQuitMessage(0); });
