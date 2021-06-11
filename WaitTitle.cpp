@@ -10,6 +10,8 @@ void WaitTitle::Init()
 	clock = IMG->Add("title_clock");
 
 	OBJ->Add(new Mouse, "Mouse");
+
+	Y = 150;
 }
 
 void WaitTitle::Update()
@@ -18,15 +20,28 @@ void WaitTitle::Update()
 	{
 		SCENE->Set("title");
 	}
+
+	if (isDown)
+	{
+		if (Y < 180)
+			Y += 0.4;
+		else
+			isDown = false;
+	}
+	else if (Y > 150)
+	{
+		Y -= 0.4;
+	}
+	else isDown = true;
 }
 
 void WaitTitle::Render()
 {
 	bg->CenterRender(CENTER);
-	boy->CenterRender(V2(WINX / 2, WINY / 2 - 250));
+	boy->CenterRender(V2(WINX / 2, Y));
 	title->CenterRender(V2(WINX / 2, WINY / 2 + 150));
 	press->CenterRender(V2(WINX / 2, WINY / 2 + 290));
-	clock->CenterRender(V2(WINX / 2, WINY - 40));
+	clock->CenterRender(V2(WINX / 2, 860));
 }
 
 void WaitTitle::Release()

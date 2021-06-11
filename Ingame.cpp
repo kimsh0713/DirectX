@@ -11,11 +11,9 @@ Ingame::Ingame(int type)
 void Ingame::Init()
 {
 	// 플레이어 추가 / 플레이어 찾기
-	OBJ->Add(new Player, "player")->pos = { CENTER.x,float(B) };
-	player = OBJ->Find("player");
 
 	Ui_base = IMG->Add("ui_ingame_base");
-	Ui_pause = new Button(IMG->Add("ui_ingame_pause button"), { V2(WINX / 2, WINY / Y) }, "", 300, 150, 0.2, [&]()->void {SCENE->Set("title"); });
+	Ui_pause = new Button(IMG->Add("ui_ingame_pause button"), { 80 , Y - 10}, "", 60, 60, 0.2, [&]()->void {SCENE->Set("title"); });
 
 	OBJ->Add(new Mouse, "Mouse");
 
@@ -30,6 +28,8 @@ void Ingame::Init()
 		Player::coloring_per = 0;
 		OBJ->Add(new Enemy(8), "Boss")->pos = CENTER;
 	}
+	OBJ->Add(new Player, "player")->pos = { CENTER.x,float(B) };
+	player = OBJ->Find("player");
 
 	OBJ->Add(new Enemy(1), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
 	OBJ->Add(new Enemy(2), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
@@ -54,12 +54,18 @@ void Ingame::Update()
 	if (player->pos.y <= 130)
 	{
 		if (Y > -18)
+		{
 			Y -= 4;
+			Ui_pause->pos.y -= 4;
+		}
 	}
 	else
 	{
 		if (Y < 60)
+		{
 			Y += 4;
+			Ui_pause->pos.y += 4;
+		}
 	}
 }
 
@@ -70,4 +76,5 @@ void Ingame::Render()
 
 void Ingame::Release()
 {
+
 }

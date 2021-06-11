@@ -119,7 +119,7 @@ void Player::Update()
 					DrawLine();
 		}
 	}
-	if (INPUT->Press(VK_DOWN))
+	else if (INPUT->Press(VK_DOWN))
 	{
 		rot = 180;
 		for (size_t i = 0; i < speed; i++)
@@ -151,7 +151,7 @@ void Player::Update()
 		}
 	}
 
-	if (INPUT->Press(VK_LEFT))
+	else if (INPUT->Press(VK_LEFT))
 	{
 		rot = 270;
 		for (size_t i = 0; i < speed; i++)
@@ -183,7 +183,7 @@ void Player::Update()
 		}
 	}
 
-	if (INPUT->Press(VK_RIGHT))
+	else if (INPUT->Press(VK_RIGHT))
 	{
 		rot = 90;
 		for (size_t i = 0; i < speed; i++)
@@ -241,13 +241,13 @@ void Player::Render()
 
 	//IMG->Write("1", CENTER, { 50.0F }, true);
 
-	char str[256];
-	sprintf(str, "%.2f%%", (double)coloring_per);		//점령도
-	IMG->Write(str, { (float)L + 10, 20 }, 30, D3DCOLOR_XRGB(0, 0, 255), false);
-	sprintf(str, "HP : %d", hp);		//hp
-	IMG->Write(str, { (float)L + 10,60 }, 30, D3DCOLOR_XRGB(255, 60, 60), false);
-	sprintf(str, "SPEED : %.0f", (double)speed);		//속도
-	IMG->Write(str, { (float)L + 10, 100 }, 30, D3DCOLOR_XRGB(100, 100, 255), false);
+	//char str[256];
+	//sprintf(str, "%.2f%%", (double)coloring_per);		//점령도
+	//IMG->Write(str, { (float)L + 10, 20 }, 30, D3DCOLOR_XRGB(0, 0, 255), false);
+	//sprintf(str, "HP : %d", hp);		//hp
+	//IMG->Write(str, { (float)L + 10,60 }, 30, D3DCOLOR_XRGB(255, 60, 60), false);
+	//sprintf(str, "SPEED : %.0f", (double)speed);		//속도
+	//IMG->Write(str, { (float)L + 10, 100 }, 30, D3DCOLOR_XRGB(100, 100, 255), false);
 	//sprintf(str, "def : %d", def);				
 	//IMG->Write(str, { (float)L + 100, CENTER.y - 150 });
 }
