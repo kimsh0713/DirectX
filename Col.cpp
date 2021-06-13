@@ -25,6 +25,11 @@ void Col::Set(V2 pos, float w, float h)
 	bottom = pos.y + h / 2;
 }
 
+void Col::SetPos(V2 vPos)
+{
+	this->pos = pos;
+}
+
 void Col::Draw()
 {
 	if (ColDraw)

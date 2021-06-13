@@ -16,6 +16,7 @@ void Ingame::Init()
 
 	Ui_base = IMG->Add("ui_ingame_base");
 	Ui_pause = new Button(IMG->Add("ui_ingame_pause button"), { 80 , Y - 10}, "", 60, 60, 0.2, [&]()->void {SCENE->Set("title"); });
+	Ui_score = IMG->Add("ui_ingame_score");
 
 	OBJ->Add(new Mouse, "Mouse");
 
@@ -41,6 +42,7 @@ void Ingame::Init()
 void Ingame::Update()
 {
 	// M 누르면 마우스 추가
+
 	if (INPUT->Down('M'))
 	{
 		OBJ->Add(new Mouse, "Mouse");
@@ -81,6 +83,11 @@ void Ingame::Update()
 void Ingame::Render()
 {
 	Ui_base->Render({ WINX / 2, Y }, RT_ZERO, { 1,1 }, 0, 0.2);
+	Ui_score->Render({ 200, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+
+	char str[256];
+	sprintf(str, "%.0f", Player::coloring_per * 500);		//스코어
+	IMG->Write(str, { 290, Y - 28 }, 40, D3DCOLOR_XRGB(0, 0, 0), false);
 }
 
 void Ingame::Release()

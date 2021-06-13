@@ -6,7 +6,9 @@ class Button :
 public:
     Button(Texture* bg, V2 pos, const string& text, float w, float h, float depth, function<void()> func);
 
+    float W, H;
     Texture* bg;
+    V2 b_pos;
     string text;
     function<void()> func;
 

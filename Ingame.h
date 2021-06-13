@@ -8,6 +8,7 @@ public:
 
     // UI
     Texture* Ui_base;
+    Texture* Ui_score;
     Button* Ui_pause;
 
     //OBJECT

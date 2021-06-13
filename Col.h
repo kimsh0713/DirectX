@@ -9,6 +9,7 @@ public:
 	~Col();
 
 	void Set(V2 pos, float w, float h);
+	void SetPos(V2 vPos);
 	void Draw();
 	RECT G() { return { left,top,right,bottom }; }
 

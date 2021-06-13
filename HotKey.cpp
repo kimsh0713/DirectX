@@ -48,10 +48,12 @@ void HotKey::F4()
 
 void HotKey::F5()
 {
+	IMG->ReLoad("BG1");
 	SCENE->Set("stage1");
 }
 
 void HotKey::F6()
 {
+	IMG->ReLoad("BG1");
 	SCENE->Set("stage2");
 }

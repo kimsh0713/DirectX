@@ -241,9 +241,10 @@ void Player::Render()
 
 	//IMG->Write("1", CENTER, { 50.0F }, true);
 
+
 	//char str[256];
 	//sprintf(str, "%.2f%%", (double)coloring_per);		//점령도
-	//IMG->Write(str, { (float)L + 10, 20 }, 30, D3DCOLOR_XRGB(0, 0, 255), false);
+	//IMG->Write(str, { 290, 35 }, 40, D3DCOLOR_XRGB(0, 0, 255), false);
 	//sprintf(str, "HP : %d", hp);		//hp
 	//IMG->Write(str, { (float)L + 10,60 }, 30, D3DCOLOR_XRGB(255, 60, 60), false);
 	//sprintf(str, "SPEED : %.0f", (double)speed);		//속도
@@ -371,7 +372,7 @@ void Player::DrawLine()
 
 	cell[c.x][c.y] = 1;
 
-	pixel[index] = D3DCOLOR_RGBA(255, 0, 0, 255);
+	pixel[index] = D3DCOLOR_RGBA(0, 0, 200, 0);
 
 	bg->p->UnlockRect(0);
 }
