@@ -47,38 +47,38 @@ void Enemy::Init()
 	{
 	case 1:
 		cool = 5;
-		size = sizes[3];
+		size = sizes[4];
 		speed = speeds[2];
 		break;
 	case 2:
-		size = sizes[3];
+		size = sizes[2];
 		speed = speeds[1];
 		break;
 	case 3:
-		//size = sizes[1];
-		//speed = speeds[3];
+		size = sizes[4];
+		speed = speeds[3];
 		break;
 	case 4:
 		cool = 3;
-		size = sizes[3];
+		size = sizes[5];
 		speed = speeds[3];
 		break;
 	case 5:
-		size = sizes[0];
+		size = sizes[4];
 		speed = speeds[4];
 		break;
 	case 6:
-		size = sizes[4];
+		size = sizes[2];
 		speed = speeds[0];
 		break;
 	case 7:
 		cool = 10;
-		size = sizes[5];
+		size = sizes[6];
 		speed = speeds[2];
 		break;
 	case 8:
 		cool = 3;
-		size = sizes[5];
+		size = sizes[7];
 		speed = speeds[2];
 		break;
 	}
@@ -102,13 +102,13 @@ void Enemy::Update()
 	switch (type)
 	{
 	case 1:
-	case 4:
+	case 6:
 		range = 30;
-		if (timer->IsStop())
-		{
-			//Flash();
-			timer->Start();
-		}
+		//if (timer->IsStop())
+		//{
+		//	Flash();
+		//	timer->Start();
+		//}
 		break;
 	case 7:
 		range = 110;
@@ -161,14 +161,15 @@ void Enemy::Update()
 	if (Player::cell[c.x][c.y] == 3)
 		if (type < 7)
 			flag = true;
+
 }
 
 void Enemy::Render()
 {
 	main_col->Draw();
-	rot += spin_force;
-	if (rot >= 360)
-		rot = 0;
+	//rot += spin_force;
+	//if (rot >= 360)
+	//	rot = 0;
 	img->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(0), 0.3);
 }
 

@@ -10,8 +10,20 @@ bool Player::isHurt = false;
 void Player::Init()
 {
 	boss = OBJ->Find("Boss");
-	bg = IMG->Add("BG1");
-	bg2 = IMG->Add("BG2");
+
+	switch (Ingame::stage)
+	{
+	case 1:
+		bg = IMG->Add("BG1");
+		bg2 = IMG->Add("BG2");
+		break;
+	case 2:
+		bg = IMG->Add("BG3");
+		bg2 = IMG->Add("BG4");
+		break;
+	}
+
+
 	img = IMG->Add("player");
 	Over = IMG->Add("GAMEOVER");
 
@@ -55,6 +67,17 @@ void Player::Init()
 
 void Player::Update()
 {
+	switch (Ingame::stage)
+	{
+	case 1:
+		bg = IMG->Add("BG1");
+		bg2 = IMG->Add("BG2");
+		break;
+	case 2:
+		bg = IMG->Add("BG3");
+		bg2 = IMG->Add("BG4");
+		break;
+	}
 	if (isHurt)
 	{
 		Hurt();
@@ -241,10 +264,6 @@ void Player::Render()
 
 	//IMG->Write("1", CENTER, { 50.0F }, true);
 
-
-	//char str[256];
-	//sprintf(str, "%.2f%%", (double)coloring_per);		//점령도
-	//IMG->Write(str, { 290, 35 }, 40, D3DCOLOR_XRGB(0, 0, 255), false);
 	//sprintf(str, "HP : %d", hp);		//hp
 	//IMG->Write(str, { (float)L + 10,60 }, 30, D3DCOLOR_XRGB(255, 60, 60), false);
 	//sprintf(str, "SPEED : %.0f", (double)speed);		//속도
@@ -372,7 +391,7 @@ void Player::DrawLine()
 
 	cell[c.x][c.y] = 1;
 
-	pixel[index] = D3DCOLOR_RGBA(0, 0, 200, 0);
+	pixel[index] = D3DCOLOR_RGBA(0, 0, 255, 0);
 
 	bg->p->UnlockRect(0);
 }

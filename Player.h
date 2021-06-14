@@ -5,8 +5,10 @@ class Player :
 {
 public:
     Texture* img;
+    // stage 1
     Texture* bg;
     Texture* bg2;
+
     Texture* Over;
     Timer* during;
     Obj* boss;
