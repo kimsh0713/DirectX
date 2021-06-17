@@ -12,9 +12,18 @@ public:
     Texture* Ui_stage;
     Texture* Ui_precent;
     Button* Ui_pause;
+    Texture* Ui_enabled_life;
+    Texture* Ui_unabled_life;
+    Texture* Ui_time;
+    Texture* Ui_timer_tank;
+    Texture* Ui_timer_bar;
 
-    //OBJECT
+    // OBJECT
     Obj* player;
+
+    // TIMER
+    int timer;
+    Timer* playtime;
 
     float Y = 60;
     int type;

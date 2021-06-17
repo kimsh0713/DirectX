@@ -102,7 +102,7 @@ void ImgMgr::Write(const string& str, V2 pos, float size, D3DXCOLOR color, bool 
 
 	D3DXMatrixTranslation(&m, v.x, v.y, 0);
 	sprite->SetTransform(&m);
-	D3DXCreateFontA(DEVICE, size, 0, center ? 0 : 10, 1, 0, 129, 0, 0, 0, "sys", &font);
+	D3DXCreateFontA(DEVICE, size, 0, center ? 0 : 10, 1, 0, 129, 0, 0, 0, "Fixedsys", &font);
 	font->DrawTextA(sprite, str.c_str(), str.size(), nullptr, DT_NOCLIP, color);
 	SAFE_RELEASE(font);
 }
