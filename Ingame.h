@@ -12,7 +12,7 @@ public:
     Texture* Ui_stage;
     Texture* Ui_precent;
     Button* Ui_pause;
-    Texture* Ui_enabled_life;
+    Texture* Ui_abled_life;
     Texture* Ui_unabled_life;
     Texture* Ui_time;
     Texture* Ui_timer_tank;

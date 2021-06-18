@@ -42,7 +42,7 @@ void Ingame::Init()
 	Ui_score = IMG->Add("ui_ingame_score");
 	Ui_stage = IMG->Add("ui_ingame_stage");
 	Ui_precent = IMG->Add("ui_ingame_%");
-	Ui_enabled_life = IMG->Add("ui_ingame_life");
+	Ui_abled_life = IMG->Add("ui_ingame_life");
 	Ui_unabled_life = IMG->Add("ui_ingame_life2");
 	Ui_time = IMG->Add("ui_ingame_time");
 	Ui_timer_tank = IMG->Add("ui_ingame_time tank");
@@ -50,7 +50,7 @@ void Ingame::Init()
 
 	OBJ->Add(new Mouse, "Mouse");
 
-	timer = 7;
+	timer = 5;
 	playtime = TIME->Create(timer);
 }
 
@@ -107,17 +107,17 @@ void Ingame::Render()
 	case 1:
 		Ui_unabled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
 		Ui_unabled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_enabled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+		Ui_abled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
 		break;
 	case 2:
 		Ui_unabled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_enabled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_enabled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+		Ui_abled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+		Ui_abled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
 		break;
 	case 3:
-		Ui_enabled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_enabled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_enabled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+		Ui_abled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+		Ui_abled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+		Ui_abled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
 		break;
 	default:
 		break;
@@ -128,7 +128,7 @@ void Ingame::Render()
 	{
 		0,
 		0,
-		Ui_timer_bar->info.Width / timer * playtime->cur,
+		Ui_timer_bar->info.Width / playtime->set * playtime->cur,
 		Ui_timer_bar->info.Height
 	};
 	Ui_timer_bar->Render({ WINX / 2 + 605, (Y - 10) }, hprt, { 1,1 }, 0, 0.1);
