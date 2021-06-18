@@ -49,6 +49,7 @@ void HotKey::F4()
 void HotKey::F5()
 {
 	IMG->ReLoad("BG1");
+	Ingame::stage = 1;
 	SCENE->Set("stage1");
 }
 
@@ -56,5 +57,6 @@ void HotKey::F6()
 {
 	IMG->ReLoad("BG3");
 	IMG->ReLoad("BG1");
+	Ingame::stage = 2;
 	SCENE->Set("stage2");
 }

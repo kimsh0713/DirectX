@@ -391,7 +391,7 @@ void Player::DrawLine()
 
 	cell[c.x][c.y] = 1;
 
-	pixel[index] = D3DCOLOR_RGBA(0, 0, 255, 0);
+	pixel[index] = D3DCOLOR_RGBA(0, 0, 255, 255);
 
 	bg->p->UnlockRect(0);
 }
