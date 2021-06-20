@@ -59,9 +59,9 @@ void Button::Enter(Col* p)
 		switch (p->tag)
 		{
 		case MOUSE:
-			r -= 100;
-			g -= 100;
-			b -= 100;
+			r = 155;
+			g = 155;
+			b = 155;
 			break;
 		}
 }
@@ -73,7 +73,12 @@ void Button::Stay(Col* p)
 		{
 		case MOUSE:
 			if (INPUT->Down(VK_LBUTTON))
+			{
+				r = 255;
+				g = 255;
+				b = 255;
 				func();
+			}
 			break;
 		}
 }
@@ -84,9 +89,9 @@ void Button::Exit(Col* p)
 		switch (p->tag)
 		{
 		case MOUSE:
-			r += 100;
-			g += 100;
-			b += 100;
+			r = 255;
+			g = 255;
+			b = 255;
 			break;
 		}
 }

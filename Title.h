@@ -9,6 +9,7 @@ public:
     Texture* bg;
     Texture* boy;
     Texture* clock;
+    Texture* a;
 
     vector<Texture*> anim;
     Timer* delay;
@@ -24,6 +25,13 @@ public:
     ScrollMap* map;
 
     int type;
+    int r = 255, g = 255, b = 255;
+
+    bool isDown = true;
+    bool isDown2 = true;
+    float Y;
+    float Y2;
+    float i = 0;
 
     // Scene을(를) 통해 상속됨
     virtual void Init() override;

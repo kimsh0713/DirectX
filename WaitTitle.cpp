@@ -11,7 +11,8 @@ void WaitTitle::Init()
 
 	OBJ->Add(new Mouse, "Mouse");
 
-	Y = 150;
+	Y = 100;
+	Y2 = 860;
 }
 
 void WaitTitle::Update()
@@ -20,19 +21,24 @@ void WaitTitle::Update()
 	{
 		SCENE->Set("title");
 	}
+	i += 0.025;
+	Y += sin(i);
 
-	if (isDown)
+
+
+	if (isDown2)
 	{
-		if (Y < 180)
-			Y += 0.4;
+		if (Y2 < 880)
+			Y2 += 0.17;
 		else
-			isDown = false;
+			isDown2 = false;
 	}
-	else if (Y > 150)
+	else if (Y2 > 850)
 	{
-		Y -= 0.4;
+		Y2 -= 0.2;
 	}
-	else isDown = true;
+	else
+		isDown2 = true;
 }
 
 void WaitTitle::Render()
@@ -41,7 +47,7 @@ void WaitTitle::Render()
 	boy->CenterRender(V2(WINX / 2, Y));
 	title->CenterRender(V2(WINX / 2, WINY / 2 + 150));
 	press->CenterRender(V2(WINX / 2, WINY / 2 + 290));
-	clock->CenterRender(V2(WINX / 2, 860));
+	clock->CenterRender(V2(WINX / 2, Y2));
 }
 
 void WaitTitle::Release()

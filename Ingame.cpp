@@ -33,9 +33,10 @@ void Ingame::Init()
 		OBJ->Add(new Enemy(4), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
 		OBJ->Add(new Enemy(5), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
 	}
+
+	// 플레이어 추가 / 플레이어 찾기
 	OBJ->Add(new Player, "player")->pos = { CENTER.x,float(B) };
 	player = OBJ->Find("player");
-	// 플레이어 추가 / 플레이어 찾기
 
 	Ui_base = IMG->Add("ui_ingame_base");
 	Ui_pause = new Button(IMG->Add("ui_ingame_pause button"), { 80 , Y - 10 }, "", 60, 60, 0.2, [&]()->void {SCENE->Set("title"); });
@@ -62,7 +63,7 @@ void Ingame::Update()
 		OBJ->Add(new Mouse, "Mouse");
 	}
 
-	if (Player::coloring_per >= 0.1)
+	if (Player::coloring_per >= 80)
 	{
 		switch (type)
 		{
