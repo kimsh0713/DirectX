@@ -11,7 +11,7 @@ void WaitTitle::Init()
 
 	OBJ->Add(new Mouse, "Mouse");
 
-	Y = 100;
+	Y = 110;
 	Y2 = 860;
 }
 

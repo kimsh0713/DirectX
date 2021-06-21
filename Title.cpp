@@ -16,18 +16,6 @@ void Title::Init()
 
 		break;
 	case 2:
-		//anim = vector<Texture*>
-		//{
-		//	IMG->Add("1"),
-		//	IMG->Add("2"),
-		//	IMG->Add("3"),
-		//	IMG->Add("4"),
-		//	IMG->Add("5"),
-		//};
-
-		//delay = TIME->Create(0.3);
-		//delay->Start();
-
 		bg = IMG->Add("title_background");
 		boy = IMG->Add("title_boy");
 		clock = IMG->Add("title_clock");
@@ -37,6 +25,17 @@ void Title::Init()
 		exit = new Button(IMG->Add("title_button_exit"), { V2(100, WINY - 110) }, "", 110, 110, 1, [&]()->void {PostQuitMessage(0); });
 		setting = new Button(IMG->Add("title_button_setting"), { V2(WINX - 100, WINY - 110) }, "", 110, 110, 1, [&]()->void {});
 		win_credit = new Window(IMG->Add("credit screen"), CENTER, 900, 900);
+		anim = vector<Texture*>
+		{
+			IMG->Add("1"),
+			IMG->Add("2"),
+			IMG->Add("3"),
+			IMG->Add("4"),
+			IMG->Add("5"),
+		};
+
+		delay = TIME->Create(0.3);
+		delay->Start();
 		break;
 	}
 	Y = 100;
@@ -50,15 +49,15 @@ void Title::Update()
 	{
 		OBJ->Add(new Mouse, "Mouse");
 	}
-	//if (delay->IsStop())
-	//{
-	//	if (index >= 4)
-	//	{
-	//		index = 0;
-	//	}
-	//	index++;
-	//	delay->Start();
-	//}
+	if (delay->IsStop())
+	{
+		if (index >= 4)
+		{
+			index = 0;
+		}
+		index++;
+		delay->Start();
+	}
 	switch (type)
 	{
 	case 1:
@@ -96,8 +95,7 @@ void Title::Update()
 
 void Title::Render()
 {
-	bg->Render(CENTER, RT_ZERO, {1,1},0,1,D3DCOLOR_RGBA(r,g,b,255));
-	//anim[index]->Render();
+	bg->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1, D3DCOLOR_RGBA(r, g, b, 255));
 	if (!win_credit->isOn)
 	{
 		start->isOn = true;
@@ -109,11 +107,12 @@ void Title::Render()
 		g = 255;
 		b = 255;
 	}
-	else if(win_credit->isOn)
+	else if (win_credit->isOn)
 	{
 		start->isOn = false;
 		credit->isOn = false;
 		howto->isOn = false;
+		anim[index]->Render({1060, WINY / 2 + 50}, RT_ZERO, {1,1},0,0);
 		r = 120;
 		g = 120;
 		b = 120;
