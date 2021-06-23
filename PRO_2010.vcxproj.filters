@@ -60,9 +60,6 @@
     <Filter Include="Game\obj">
       <UniqueIdentifier>{ad4d8ec6-4fcc-4d87-a97a-3635520f140e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\scene">
-      <UniqueIdentifier>{600ee4ba-e1a8-4a60-86af-be86d438655b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Mgr\INPUT">
       <UniqueIdentifier>{b67a8171-eee0-4b2b-bb1d-fe458bf61497}</UniqueIdentifier>
     </Filter>
@@ -74,6 +71,9 @@
     </Filter>
     <Filter Include="Mgr\SOUND\TIME">
       <UniqueIdentifier>{1ef2df51-b263-4293-b67f-afc6163ca258}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\scene">
+      <UniqueIdentifier>{600ee4ba-e1a8-4a60-86af-be86d438655b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -4,6 +4,7 @@
 extern int score;
 
 int Ingame::stage = 1;
+bool Ingame::GameStart = false;
 
 Ingame::Ingame(int type)
 	:type(type)
@@ -12,6 +13,8 @@ Ingame::Ingame(int type)
 
 void Ingame::Init()
 {
+	StartTimer = TIME->Create(3);
+	StartTimer->Start();
 	// 마우스 추가
 	OBJ->Add(new Mouse, "Mouse");
 
@@ -63,6 +66,10 @@ void Ingame::Init()
 
 void Ingame::Update()
 {
+	if (StartTimer->IsStop())
+	{
+		Ingame::GameStart = true;
+	}
 	// M 누르면 마우스 추가
 	if (INPUT->Down('M'))
 	{
@@ -112,6 +119,7 @@ void Ingame::Render()
 	Ui_score->Render({ 200, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
 	Ui_stage->Render({ 550,(Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
 	Ui_precent->Render({ WINX / 2 + 35, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+
 	switch (player->hp)
 	{
 	case 1:

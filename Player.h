@@ -43,6 +43,7 @@ public:
     bool draw_mode = false;
     bool no_damage = false;
 
+    void InputKey();
     void Hurt();
     void SetUp();
     void DrawLine();
