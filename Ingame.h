@@ -22,12 +22,16 @@ public:
     Obj* player;
 
     // TIMER
+    Timer* StartTimer;
+
     int timer;
     Timer* playtime;
 
     float Y = 60;
     int type;
     int enemy_count = 3;
+
+    static bool GameStart;
     
     static int stage;
 

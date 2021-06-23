@@ -109,167 +109,19 @@ void Player::Update()
 	//		rot = 0;
 	//}
 
-	if (INPUT->Press(VK_UP))
+	if (Ingame::GameStart == true)
 	{
-		rot = 0;
-		for (size_t i = 0; i < speed; i++)
-		{
-			key = KeyState::UP;
-
-			pos.y--;
-
-
-			if (Current() == 0)
-			{
-				if (!INPUT->Press(VK_SPACE))
-				{
-					pos.y++;
-				}
-			}
-			if (Current() == 1)
-				pos.y++;
-			if (Current() == 3)
-				pos.y++;
-
-
-			if (pos.y < T)
-				pos.y = T;
-
-			if (Current() == 2)
-				DrawArea();
-			else
-				if (!Near(key, 3))
-					DrawLine();
-		}
-	}
-	else if (INPUT->Press(VK_DOWN))
-	{
-		rot = 180;
-		for (size_t i = 0; i < speed; i++)
-		{
-			key = KeyState::DOWN;
-
-			pos.y++;
-
-			if (Current() == 0)
-			{
-				if (!INPUT->Press(VK_SPACE))
-				{
-					pos.y--;
-				}
-			}
-			if (Current() == 1)
-				pos.y--;
-			if (Current() == 3)
-				pos.y--;
-
-			if (pos.y > B)
-				pos.y = B;
-
-			if (Current() == 2)
-				DrawArea();
-			else
-				if (!Near(key, 3))
-					DrawLine();
-		}
+		InputKey();
 	}
 
-	else if (INPUT->Press(VK_LEFT))
-	{
-		rot = 270;
-		for (size_t i = 0; i < speed; i++)
-		{
-			key = KeyState::LEFT;
-
-			pos.x--;
-
-			if (Current() == 0)
-			{
-				if (!INPUT->Press(VK_SPACE))
-				{
-					pos.x++;
-				}
-			}
-			if (Current() == 1)
-				pos.x++;
-			if (Current() == 3)
-				pos.x++;
-
-			if (pos.x < L)
-				pos.x = L;
-
-			if (Current() == 2)
-				DrawArea();
-			else
-				if (!Near(key, 3))
-					DrawLine();
-		}
-	}
-
-	else if (INPUT->Press(VK_RIGHT))
-	{
-		rot = 90;
-		for (size_t i = 0; i < speed; i++)
-		{
-			key = KeyState::RIGHT;
-
-			pos.x++;
-
-			if (Current() == 0)
-			{
-				if (!INPUT->Press(VK_SPACE))
-				{
-					pos.x--;
-				}
-			}
-			if (Current() == 1)
-				pos.x--;
-			if (Current() == 3)
-				pos.x--;
-
-			if (pos.x > R - 1)
-				pos.x = R - 1;
-
-			if (Current() == 2)
-				DrawArea();
-			else
-				if (!Near(key, 3))
-					DrawLine();
-		}
-	}
-	if (INPUT->Down(VK_F8))
-		coloring_per = 100;
-
-	if (INPUT->Down(VK_F1))
-		HOT->F1();
-	if (INPUT->Down(VK_F2))
-		HOT->F2();
-	if (INPUT->Down(VK_F3))
-		HOT->F3();
-	if (INPUT->Down(VK_F4))
-		HOT->F4();
-	if (INPUT->Down(VK_F5))
-		HOT->F5();
-	if (INPUT->Down(VK_F6))
-		HOT->F6();
 }
 
 void Player::Render()
 {
-
 	main_col->Draw();
 	bg2->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
 	bg->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
 	img->Render(pos, RT_ZERO, { 1,1 }, D3DXToRadian(rot));
-
-	//IMG->Write("1", CENTER, { 50.0F }, true);
-
-	//sprintf(str, "HP : %d", hp);		//hp
-	//IMG->Write(str, { (float)L + 10,60 }, 30, D3DCOLOR_XRGB(255, 60, 60), false);
-	//sprintf(str, "SPEED : %.0f", (double)speed);		//¼Óµµ
-	//IMG->Write(str, { (float)L + 10, 100 }, 30, D3DCOLOR_XRGB(100, 100, 255), false);
-	//sprintf(str, "def : %d", def);				
-	//IMG->Write(str, { (float)L + 100, CENTER.y - 150 });
 }
 
 void Player::Release()
@@ -356,6 +208,179 @@ void Player::SetUp()
 void Player::reset()
 {
 	DrawArea(3);
+}
+
+void Player::InputKey()
+{
+	//if (INPUT->Press(VK_UP))
+	//{
+	//	rot = 0;
+	//	for (size_t i = 0; i < speed; i++)
+	//	{
+	//		key = KeyState::UP;
+
+	//		pos.y--;
+
+
+	//		if (Current() == 0)
+	//		{
+	//			if (!INPUT->Press(VK_SPACE))
+	//			{
+	//				pos.y++;
+	//			}
+	//		}
+	//		if (Current() == 1)
+	//			pos.y++;
+	//		if (Current() == 3)
+	//			pos.y++;
+
+
+	//		if (pos.y < T)
+	//			pos.y = T;
+
+	//		if (Current() == 2)
+	//			DrawArea();
+	//		else
+	//			if (!Near(key, 3))
+	//				DrawLine();
+	//	}
+	//}
+	if (INPUT->Press(VK_UP))
+	{
+		rot = 0;
+		if (INPUT->Press(VK_SPACE))
+		{
+			for (size_t i = 0; i < speed; i++)
+			{
+				POINT c = { pos.x, pos.y };
+				if (cell[c.x][c.y - 2] == 1)
+					return;
+
+				key = KeyState::UP;
+
+				pos.y--;
+
+				if (Current() == 3)
+					pos.y++;
+
+				if (pos.y < T)
+					pos.y = T;
+
+				if (Current() == 2)
+					DrawArea();
+				else
+					if (!Near(key, 3))
+						DrawLine();
+			}
+		}
+	}
+
+	else if (INPUT->Press(VK_DOWN))
+	{
+		rot = 180;
+		if (INPUT->Press(VK_SPACE))
+		{
+			for (size_t i = 0; i < speed; i++)
+			{
+				POINT c = { pos.x, pos.y };
+				if (cell[c.x][c.y + 2] == 1)
+					return;
+
+				key = KeyState::DOWN;
+
+				pos.y++;
+
+
+				if (Current() == 3)
+					pos.y--;
+
+				if (pos.y > B)
+					pos.y = B;
+
+				if (Current() == 2)
+					DrawArea();
+				else
+					if (!Near(key, 3))
+						DrawLine();
+			}
+		}
+	}
+
+	else if (INPUT->Press(VK_LEFT))
+	{
+		rot = 270;
+		if (INPUT->Press(VK_SPACE))
+		{
+			for (size_t i = 0; i < speed; i++)
+			{
+				POINT c = { pos.x, pos.y };
+				if (cell[c.x - 2][c.y] == 1)
+					return;
+
+				key = KeyState::LEFT;
+
+				pos.x--;
+
+				if (Current() == 3)
+					pos.x++;
+
+				if (pos.x < L)
+					pos.x = L;
+
+				if (Current() == 2)
+					DrawArea();
+				else
+					if (!Near(key, 3))
+						DrawLine();
+			}
+		}
+
+	}
+
+	else if (INPUT->Press(VK_RIGHT))
+	{
+		rot = 90;
+		if (INPUT->Press(VK_SPACE))
+		{
+			for (size_t i = 0; i < speed; i++)
+			{
+				POINT c = { pos.x, pos.y };
+				if (cell[c.x + 2][c.y] == 1)
+					return;
+
+				key = KeyState::RIGHT;
+
+				pos.x++;
+
+				if (Current() == 3)
+					pos.x--;
+
+				if (pos.x > R - 1)
+					pos.x = R - 1;
+
+				if (Current() == 2)
+					DrawArea();
+				else
+					if (!Near(key, 3))
+						DrawLine();
+			}
+		}
+	}
+	if (INPUT->Down(VK_F8))
+		coloring_per = 100;
+
+	if (INPUT->Down(VK_F1))
+		HOT->F1();
+	if (INPUT->Down(VK_F2))
+		HOT->F2();
+	if (INPUT->Down(VK_F3))
+		HOT->F3();
+	if (INPUT->Down(VK_F4))
+		HOT->F4();
+	if (INPUT->Down(VK_F5))
+		HOT->F5();
+	if (INPUT->Down(VK_F6))
+		HOT->F6();
 }
 
 void Player::Hurt()
