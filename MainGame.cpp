@@ -8,6 +8,7 @@ void MainGame::Init()
 	SCENE->Add(new WaitTitle, "WaitTitel");
 	SCENE->Add(new Ingame(1), "stage1");
 	SCENE->Add(new Ingame(2), "stage2");
+	SCENE->Add(new Ingame(3), "stage3");
 	SCENE->Add(new End(1), "clear");
 	SCENE->Add(new End(2), "fail");
 	SCENE->Set("WaitTitel");

@@ -21,6 +21,10 @@ void Player::Init()
 		bg = IMG->Add("BG3");
 		bg2 = IMG->Add("BG4");
 		break;
+	case 3:
+		bg = IMG->Add("BG5");
+		bg2 = IMG->Add("BG6");
+		break;
 	}
 
 
@@ -76,6 +80,10 @@ void Player::Update()
 	case 2:
 		bg = IMG->Add("BG3");
 		bg2 = IMG->Add("BG4");
+		break;
+	case 3:
+		bg = IMG->Add("BG5");
+		bg2 = IMG->Add("BG6");
 		break;
 	}
 	if (isHurt)

@@ -32,6 +32,12 @@ void Ingame::Init()
 		OBJ->Add(new Enemy(3), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
 		OBJ->Add(new Enemy(4), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
 		OBJ->Add(new Enemy(5), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		break;
+	case 3:
+		Ingame::stage = 3;
+		Player::coloring_per = 0;
+		OBJ->Add(new Enemy(12), "Boss")->pos = CENTER;
+		break;
 	}
 
 	// 플레이어 추가 / 플레이어 찾기
@@ -63,7 +69,7 @@ void Ingame::Update()
 		OBJ->Add(new Mouse, "Mouse");
 	}
 
-	if (Player::coloring_per >= 80)
+	if (Player::coloring_per >= 0.6)
 	{
 		switch (type)
 		{
@@ -73,6 +79,9 @@ void Ingame::Update()
 			SCENE->Set("stage2");
 			break;
 		case 2:
+			SCENE->Set("stage3");
+			break;
+		case 3:
 			SCENE->Set("clear");
 			break;
 		}

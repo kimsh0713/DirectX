@@ -11,7 +11,8 @@ public:
     Texture* clock;
     Texture* a;
 
-    vector<Texture*> anim;
+    vector<Texture*> sh_anim;
+    vector<Texture*> eb_anim;
     Timer* delay;
     int index = 0;
 

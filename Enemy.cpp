@@ -72,14 +72,16 @@ void Enemy::Init()
 		speed = speeds[0];
 		break;
 	case 7:
-		cool = 10;
 		size = sizes[6];
 		speed = speeds[2];
 		break;
 	case 8:
-		cool = 3;
 		size = sizes[7];
 		speed = speeds[2];
+		break;
+	case 12:
+		size = sizes[7];
+		speed = speeds[3];
 		break;
 	}
 
@@ -136,6 +138,9 @@ void Enemy::Update()
 			//Shot(36);
 			timer->Start();
 		}
+		break;
+	case 12:
+		range = 110;
 		break;
 	}
 
