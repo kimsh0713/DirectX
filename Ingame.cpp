@@ -96,7 +96,7 @@ void Ingame::Update()
 	// 플레이어가 y130자표 이상 올라가면 Ui 올라감.	Player.y < 200
 	if (player->pos.y <= 130)
 	{
-		if (Y > -18)
+		if (Y > -30)
 		{
 			Y -= 4;
 			Ui_pause->pos.y -= 4;

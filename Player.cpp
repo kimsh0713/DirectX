@@ -121,7 +121,6 @@ void Player::Update()
 	{
 		InputKey();
 	}
-
 }
 
 void Player::Render()
@@ -437,12 +436,12 @@ void Player::DrawArea(int draw_flag)
 		{
 			D3DXCOLOR change = bg_color[y * CELLSIZE_X + x];
 
-			if (cell[x + 1][y] == 3 & cell[x - 1][y] == 3)
+			if (cell[x + 1][y] == 3 && cell[x - 1][y] == 3)
 			{
 				change = D3DCOLOR_RGBA(0, 0, 0, 0);
 				cell[x][y] = 3;
 			}
-			if (cell[x][y + 1] == 3 & cell[x][y - 1] == 3)
+			if (cell[x][y + 1] == 3 && cell[x][y - 1] == 3)
 			{
 				change = D3DCOLOR_RGBA(0, 0, 0, 0);
 				cell[x][y] = 3;
