@@ -13,8 +13,6 @@ Ingame::Ingame(int type)
 
 void Ingame::Init()
 {
-	StartTimer = TIME->Create(3);
-	StartTimer->Start();
 	// 마우스 추가
 	OBJ->Add(new Mouse, "Mouse");
 
@@ -47,6 +45,9 @@ void Ingame::Init()
 	OBJ->Add(new Player, "player")->pos = { CENTER.x,float(B) };
 	player = OBJ->Find("player");
 
+	Ui_gst_tank = IMG->Add("gst_tank");
+	Ui_gst_dive = IMG->Add("gst_dive");
+	blind = IMG->Add("blind");
 	Ui_base = IMG->Add("ui_ingame_base");
 	Ui_pause = new Button(IMG->Add("ui_ingame_pause button"), { 80 , Y - 10 }, "", 60, 60, 0.2, [&]()->void {SCENE->Set("title"); });
 	Ui_score = IMG->Add("ui_ingame_score");
@@ -66,7 +67,7 @@ void Ingame::Init()
 
 void Ingame::Update()
 {
-	if (StartTimer->IsStop())
+	if (INPUT->Down('S'))
 	{
 		Ingame::GameStart = true;
 	}
@@ -76,7 +77,7 @@ void Ingame::Update()
 		OBJ->Add(new Mouse, "Mouse");
 	}
 
-	if (Player::coloring_per >= 20)
+	if (Player::coloring_per >= 10)
 	{
 		switch (type)
 		{
@@ -84,6 +85,7 @@ void Ingame::Update()
 			IMG->ReLoad("BG1");
 			stage = 2;
 			SCENE->Set("stage2");
+			type = 2;
 			break;
 		case 2:
 			SCENE->Set("stage3");
@@ -110,41 +112,110 @@ void Ingame::Update()
 			Ui_pause->pos.y += 4;
 		}
 	}
-	playtime->Start();
+	if (!Ingame::GameStart)
+	{
+		if (gst_y < WINY / 2 + 20)
+		{
+			gst_y += 7;
+		}
+		else
+		{
+			dive_time += DT;
+		}
+	}
+
+	if (dive_count < 2)
+	{
+		if (dive_time < 0.3)
+		{
+			dive_type = true;
+		}
+		else
+		{
+			dive_type = false;
+			if (dive_time > 0.6)
+			{
+				dive_count++;
+				dive_time = 0;
+			}
+		}
+	}
+	else if (dive_count >= 2)
+	{
+		dive_type = true;
+		if (dive_time > 0.5)
+		{
+			blind_y -= 12;
+			alpha -= 3;
+			if (alpha <= 0)
+				alpha = 0;
+			if (blind_y <= -850)
+			{
+				playtime->Start();
+				Ingame::GameStart = true;
+			}
+		}
+	}
+
 }
 
 void Ingame::Render()
 {
-	Ui_base->Render({ WINX / 2, Y }, RT_ZERO, { 1,1 }, 0, 0.2);
-	Ui_score->Render({ 200, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-	Ui_stage->Render({ 550,(Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-	Ui_precent->Render({ WINX / 2 + 35, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+	if (!Ingame::GameStart)
+	{
+		blind->Render({ WINX / 2, blind_y }, RT_ZERO, { 1,1 }, 0, 0.1);
+		Ui_gst_tank->Render({ WINX / 2, gst_y }, RT_ZERO, { 1,1 }, 0, 0.09, D3DCOLOR_RGBA(255, 255, 255, alpha));
+
+		char str[256];
+		sprintf(str, "%.0f", dive_time);		//스코어
+		IMG->Write(str, { 290, Y - 32 }, 50, D3DCOLOR_XRGB(0, 0, 0), false);
+
+		if (gst_y >= WINY / 2 + 20)
+		{
+			if (dive_type)
+				Ui_gst_dive->Render({ WINX / 2, gst_y + 100 }, RT_ZERO, { 1,1 }, 0, 0.08, D3DCOLOR_RGBA(255, 255, 255, alpha));
+		}
+	}
+	else
+	{
+		char str[256];
+		sprintf(str, "%d", Player::Score);		//스코어
+		IMG->Write(str, { 290, Y - 32 }, 50, D3DCOLOR_XRGB(0, 0, 0), false);
+
+		sprintf(str, "%.1f", Player::coloring_per);				//점령도
+		IMG->Write(str, { WINX / 2 - 25, Y - 8 }, 50, D3DCOLOR_XRGB(0, 0, 0), true);
+	}
+
+	Ui_base->Render({ WINX / 2, Y }, RT_ZERO, { 1,1 }, 0, 0.3);
+	Ui_score->Render({ 200, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
+	Ui_stage->Render({ 550,(Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
+	Ui_precent->Render({ WINX / 2 + 35, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
 
 	switch (player->hp)
 	{
 	case 1:
-		Ui_unabled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_unabled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_abled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+		Ui_unabled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_unabled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
 		break;
 	case 2:
-		Ui_unabled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_abled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_abled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+		Ui_unabled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
 		break;
 	case 3:
-		Ui_abled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_abled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_abled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+		Ui_abled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
 		break;
 	default:
-		Ui_abled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_abled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-		Ui_abled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+		Ui_abled_life->Render({ WINX / 2 + 250, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 180, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 110, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
 		break;
 	}
-	Ui_time->Render({ WINX / 2 + 360, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
-	Ui_timer_tank->Render({ WINX / 2 + 600, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.2);
+	Ui_time->Render({ WINX / 2 + 360, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
+	Ui_timer_tank->Render({ WINX / 2 + 600, (Y - 10) }, RT_ZERO, { 1,1 }, 0, 0.3);
 	RECT hprt =
 	{
 		0,
@@ -152,14 +223,7 @@ void Ingame::Render()
 		Ui_timer_bar->info.Width / playtime->set * playtime->cur,
 		Ui_timer_bar->info.Height
 	};
-	Ui_timer_bar->Render({ WINX / 2 + 605, (Y - 10) }, hprt, { 1,1 }, 0, 0.1);
-
-	char str[256];
-	sprintf(str, "%.0f", Player::coloring_per * 500);		//스코어
-	IMG->Write(str, { 290, Y - 32 }, 50, D3DCOLOR_XRGB(0, 0, 0), false);
-
-	sprintf(str, "%.1f", Player::coloring_per);				//점령도
-	IMG->Write(str, { WINX / 2 - 25, Y - 8 }, 50, D3DCOLOR_XRGB(0, 0, 0), true);
+	Ui_timer_bar->Render({ WINX / 2 + 605, (Y - 10) }, hprt, { 1,1 }, 0, 0.29);
 }
 
 void Ingame::Release()

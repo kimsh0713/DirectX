@@ -9,7 +9,6 @@ public:
     Texture* bg;
     Texture* bg2;
 
-    Texture* Over;
     Timer* during;
     Obj* boss;
     V2 start;
@@ -30,6 +29,8 @@ public:
     static int cell[CELLSIZE_X][CELLSIZE_Y];
     static float coloring_per;
     static bool isHurt;
+    // Score
+    static int Score;
 
     int total_cell = CELLSIZE_X * CELLSIZE_Y;
     int coloring_cells = 0;

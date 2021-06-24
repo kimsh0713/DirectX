@@ -121,7 +121,7 @@ bool ObjMgr::MapOut(Obj* p)
 {
 	if (p)
 	{
-		return (p->pos.x < -200 ||  p->pos.x > WINX + 200 || p->pos.y < -200 || p->pos.y > WINY + 200);
+		return (p->pos.x < -1000 ||  p->pos.x > WINX + 1000 || p->pos.y < -1000 || p->pos.y > WINY + 1000);
 	}
 	return false;
 }

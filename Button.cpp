@@ -36,6 +36,12 @@ void Button::Update()
 {
 	b_pos = this->pos;
 	main_col->Set(b_pos, W, H);
+	if (!isOn)
+	{
+		r = 255;
+		g = 255;
+		b = 255;
+	}
 }
 
 void Button::Render()
@@ -74,9 +80,6 @@ void Button::Stay(Col* p)
 		case MOUSE:
 			if (INPUT->Down(VK_LBUTTON))
 			{
-				r = 255;
-				g = 255;
-				b = 255;
 				func();
 			}
 			break;

@@ -1,44 +1,57 @@
 #pragma once
 #include "Scene.h"
 class Ingame :
-    public Scene
+	public Scene
 {
 public:
-    Ingame(int type);
+	Ingame(int type);
 
-    // UI
-    Texture* Ui_base;
-    Texture* Ui_score;
-    Texture* Ui_stage;
-    Texture* Ui_precent;
-    Button* Ui_pause;
-    Texture* Ui_abled_life;
-    Texture* Ui_unabled_life;
-    Texture* Ui_time;
-    Texture* Ui_timer_tank;
-    Texture* Ui_timer_bar;
+	// Start Ui
+	Texture* blind;
+	Texture* Ui_gst_tank;
+	Texture* Ui_gst_dive;
+	// UI
+	Texture* Ui_base;
+	Texture* Ui_score;
+	Texture* Ui_stage;
+	Texture* Ui_precent;
+	Button* Ui_pause;
+	Texture* Ui_abled_life;
+	Texture* Ui_unabled_life;
+	Texture* Ui_time;
+	Texture* Ui_timer_tank;
+	Texture* Ui_timer_bar;
 
-    // OBJECT
-    Obj* player;
+	// OBJECT
+	Obj* player;
 
-    // TIMER
-    Timer* StartTimer;
+	// TIMER
+	int timer;
+	Timer* playtime;
 
-    int timer;
-    Timer* playtime;
+	// GameStart Ui
+	float gst_y = -100;
+	float blind_y = 450;
+	int alpha = 255;
+	// Ui
+	float Y = 60;
 
-    float Y = 60;
-    int type;
-    int enemy_count = 3;
+	// DIVE
+	int dive_count = 0;
+	bool dive_type = false;
+	float dive_time = 0;
 
-    static bool GameStart;
-    
-    static int stage;
+	int type;
+	int enemy_count = 3;
 
-    // Scene을(를) 통해 상속됨
-    virtual void Init() override;
-    virtual void Update() override;
-    virtual void Render() override;
-    virtual void Release() override;
+	static bool GameStart;
+
+	static int stage;
+
+	// Scene을(를) 통해 상속됨
+	virtual void Init() override;
+	virtual void Update() override;
+	virtual void Render() override;
+	virtual void Release() override;
 };
 

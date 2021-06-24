@@ -6,6 +6,7 @@ extern float time_scale;
 int Player::cell[CELLSIZE_X][CELLSIZE_Y] = { 0, };
 float Player::coloring_per = 0;
 bool Player::isHurt = false;
+int Player::Score = 0;
 
 void Player::Init()
 {
@@ -29,7 +30,6 @@ void Player::Init()
 
 
 	img = IMG->Add("player");
-	Over = IMG->Add("GAMEOVER");
 
 	D3DLOCKED_RECT lr;
 
@@ -128,11 +128,7 @@ void Player::Render()
 	main_col->Draw();
 	bg2->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
 	bg->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
-	img->Render(pos, RT_ZERO, { 1,1 }, D3DXToRadian(rot));
-	POINT c = { pos.x, pos.y };
-	char str[256];
-	sprintf(str, "%d", cell[c.x][c.y]);		//½ºÄÚ¾î
-	IMG->Write(str, { 290, WINY/2 }, 50, D3DCOLOR_XRGB(0, 0, 0), false);
+	img->Render(pos, RT_ZERO, { 1,1 }, D3DXToRadian(rot),0.38);
 }
 
 void Player::Release()
@@ -311,7 +307,7 @@ void Player::InputKey()
 			if (cell[c.x - 2][c.y] == 1)
 				return;
 			if (cell[c.x - 1][c.y] == 3)
-				pos.x+= 3;
+				pos.x += 3;
 
 			pos.x--;
 
@@ -473,9 +469,6 @@ void Player::DrawArea(int draw_flag)
 
 				coloring_cells++;
 				break;
-			case 2:
-				change = D3DCOLOR_RGBA(255, 0, 0, 255);
-				break;
 			case 3:
 				if (draw_flag == 3)
 				{
@@ -560,6 +553,7 @@ bool Player::FloodFill(V2 pos, int target, int change)
 	AddItem();
 
 	coloring_cells += temp;
+	Score += temp * 0.08;
 
 	float temp1 = coloring_cells * 100;
 	coloring_per = temp1 / total_cell;

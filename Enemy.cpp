@@ -92,8 +92,11 @@ void Enemy::Init()
 
 void Enemy::Update()
 {
-	for (int i = 0; i < speed; i++)
-		pos += dir;
+	if (Ingame::GameStart)
+	{
+		for (int i = 0; i < speed; i++)
+			pos += dir;
+	}
 
 	spin_force += DT * 100;
 	if (spin_force >= 360)
@@ -175,7 +178,7 @@ void Enemy::Render()
 	//rot += spin_force;
 	//if (rot >= 360)
 	//	rot = 0;
-	img->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(0), 0.3);
+	img->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(rot), 0.39);
 }
 
 void Enemy::Release()
