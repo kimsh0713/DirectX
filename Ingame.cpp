@@ -76,7 +76,7 @@ void Ingame::Update()
 		OBJ->Add(new Mouse, "Mouse");
 	}
 
-	if (Player::coloring_per >= 0.6)
+	if (Player::coloring_per >= 20)
 	{
 		switch (type)
 		{

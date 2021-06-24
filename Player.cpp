@@ -130,6 +130,10 @@ void Player::Render()
 	bg2->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
 	bg->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
 	img->Render(pos, RT_ZERO, { 1,1 }, D3DXToRadian(rot));
+	POINT c = { pos.x, pos.y };
+	char str[256];
+	sprintf(str, "%d", cell[c.x][c.y]);		//½ºÄÚ¾î
+	IMG->Write(str, { 290, WINY/2 }, 50, D3DCOLOR_XRGB(0, 0, 0), false);
 }
 
 void Player::Release()
@@ -220,127 +224,106 @@ void Player::reset()
 
 void Player::InputKey()
 {
-	//if (INPUT->Press(VK_UP))
-	//{
-	//	rot = 0;
-	//	for (size_t i = 0; i < speed; i++)
-	//	{
-	//		key = KeyState::UP;
-
-	//		pos.y--;
-
-
-	//		if (Current() == 0)
-	//		{
-	//			if (!INPUT->Press(VK_SPACE))
-	//			{
-	//				pos.y++;
-	//			}
-	//		}
-	//		if (Current() == 1)
-	//			pos.y++;
-	//		if (Current() == 3)
-	//			pos.y++;
-
-
-	//		if (pos.y < T)
-	//			pos.y = T;
-
-	//		if (Current() == 2)
-	//			DrawArea();
-	//		else
-	//			if (!Near(key, 3))
-	//				DrawLine();
-	//	}
-	//}
+	if (INPUT->Press('W'))
+	{
+		pos.y -= 2;
+	}
 	if (INPUT->Press(VK_UP))
 	{
 		rot = 0;
-		if (INPUT->Press(VK_SPACE))
+		for (size_t i = 0; i < speed; i++)
 		{
-			for (size_t i = 0; i < speed; i++)
+			key = KeyState::UP;
+
+			POINT c = { pos.x, pos.y };
+			if (cell[c.x][c.y - 1] == 0)
 			{
-				POINT c = { pos.x, pos.y };
-				if (cell[c.x][c.y - 2] == 1)
+				if (!INPUT->Press(VK_SPACE))
+				{
 					return;
-
-				key = KeyState::UP;
-
-				pos.y--;
-
-				if (Current() == 3)
-					pos.y++;
-
-				if (pos.y < T)
-					pos.y = T;
-
-				if (Current() == 2)
-					DrawArea();
-				else
-					if (!Near(key, 3))
-						DrawLine();
+				}
 			}
+			if (cell[c.x][c.y - 2] == 1)
+				return;
+			if (cell[c.x][c.y - 1] == 3)
+				return;
+
+			pos.y--;
+
+			if (pos.y < T)
+				pos.y = T;
+
+			if (Current() == 2)
+				DrawArea();
+			else
+				if (!Near(key, 3))
+					DrawLine();
 		}
 	}
 
 	else if (INPUT->Press(VK_DOWN))
 	{
 		rot = 180;
-		if (INPUT->Press(VK_SPACE))
+		for (size_t i = 0; i < speed; i++)
 		{
-			for (size_t i = 0; i < speed; i++)
+			key = KeyState::DOWN;
+
+			POINT c = { pos.x, pos.y };
+			if (cell[c.x][c.y + 1] == 0)
 			{
-				POINT c = { pos.x, pos.y };
-				if (cell[c.x][c.y + 2] == 1)
+				if (!INPUT->Press(VK_SPACE))
+				{
 					return;
-
-				key = KeyState::DOWN;
-
-				pos.y++;
-
-
-				if (Current() == 3)
-					pos.y--;
-
-				if (pos.y > B)
-					pos.y = B;
-
-				if (Current() == 2)
-					DrawArea();
-				else
-					if (!Near(key, 3))
-						DrawLine();
+				}
 			}
+			if (cell[c.x][c.y + 2] == 1)
+				return;
+			if (cell[c.x][c.y + 1] == 3)
+				return;
+
+			pos.y++;
+
+			if (pos.y > B)
+				pos.y = B;
+
+			if (Current() == 2)
+				DrawArea();
+			else
+				if (!Near(key, 3))
+					DrawLine();
 		}
 	}
 
 	else if (INPUT->Press(VK_LEFT))
 	{
 		rot = 270;
-		if (INPUT->Press(VK_SPACE))
+		for (size_t i = 0; i < speed; i++)
 		{
-			for (size_t i = 0; i < speed; i++)
+			key = KeyState::LEFT;
+
+			POINT c = { pos.x, pos.y };
+			if (cell[c.x - 1][c.y] == 0)
 			{
-				POINT c = { pos.x, pos.y };
-				if (cell[c.x - 2][c.y] == 1)
+				if (!INPUT->Press(VK_SPACE))
+				{
 					return;
-
-				key = KeyState::LEFT;
-
-				pos.x--;
-
-				if (Current() == 3)
-					pos.x++;
-
-				if (pos.x < L)
-					pos.x = L;
-
-				if (Current() == 2)
-					DrawArea();
-				else
-					if (!Near(key, 3))
-						DrawLine();
+				}
 			}
+			if (cell[c.x - 2][c.y] == 1)
+				return;
+			if (cell[c.x - 1][c.y] == 3)
+				pos.x+= 3;
+
+			pos.x--;
+
+			if (pos.x < L)
+				pos.x = L;
+
+			if (Current() == 2)
+				DrawArea();
+			else
+				if (!Near(key, 3))
+					DrawLine();
 		}
 
 	}
@@ -348,30 +331,33 @@ void Player::InputKey()
 	else if (INPUT->Press(VK_RIGHT))
 	{
 		rot = 90;
-		if (INPUT->Press(VK_SPACE))
+		for (size_t i = 0; i < speed; i++)
 		{
-			for (size_t i = 0; i < speed; i++)
+			key = KeyState::RIGHT;
+
+			POINT c = { pos.x, pos.y };
+			if (cell[c.x + 1][c.y] == 0)
 			{
-				POINT c = { pos.x, pos.y };
-				if (cell[c.x + 2][c.y] == 1)
+				if (!INPUT->Press(VK_SPACE))
+				{
 					return;
-
-				key = KeyState::RIGHT;
-
-				pos.x++;
-
-				if (Current() == 3)
-					pos.x--;
-
-				if (pos.x > R - 1)
-					pos.x = R - 1;
-
-				if (Current() == 2)
-					DrawArea();
-				else
-					if (!Near(key, 3))
-						DrawLine();
+				}
 			}
+			if (cell[c.x + 2][c.y] == 1)
+				return;
+			if (cell[c.x + 1][c.y] == 3)
+				return;
+
+			pos.x++;
+
+			if (pos.x > R - 1)
+				pos.x = R - 1;
+
+			if (Current() == 2)
+				DrawArea();
+			else
+				if (!Near(key, 3))
+					DrawLine();
 		}
 	}
 	if (INPUT->Down(VK_F8))
@@ -451,9 +437,13 @@ void Player::DrawArea(int draw_flag)
 		{
 			D3DXCOLOR change = bg_color[y * CELLSIZE_X + x];
 
-			if (cell[x + 1][y] & cell[x - 1][y] == 3 || cell[x][y + 1] & cell[x][y - 1] == 3)
+			if (cell[x + 1][y] == 3 & cell[x - 1][y] == 3)
 			{
-
+				change = D3DCOLOR_RGBA(0, 0, 0, 0);
+				cell[x][y] = 3;
+			}
+			if (cell[x][y + 1] == 3 & cell[x][y - 1] == 3)
+			{
 				change = D3DCOLOR_RGBA(0, 0, 0, 0);
 				cell[x][y] = 3;
 			}
@@ -477,12 +467,16 @@ void Player::DrawArea(int draw_flag)
 					cell[x][y] = 0;
 					break;
 				}
-				change = D3DCOLOR_RGBA(0, 0, 0, 0);
+				change = D3DCOLOR_RGBA(0, 0, 0, 255);
 				cell[x][y] = 2;
 
 				last = { float(x),float(y) };
 
 				coloring_cells++;
+				break;
+			case 2:
+				change = D3DCOLOR_RGBA(255, 0, 0, 255);
+				break;
 			case 3:
 				if (draw_flag == 3)
 				{
