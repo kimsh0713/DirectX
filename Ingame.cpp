@@ -5,6 +5,7 @@ extern int score;
 
 int Ingame::stage = 1;
 bool Ingame::GameStart = false;
+bool Ingame::GameOver = false;
 
 Ingame::Ingame(int type)
 	:type(type)
@@ -16,31 +17,38 @@ void Ingame::Init()
 	// 마우스 추가
 	OBJ->Add(new Mouse, "Mouse");
 
+
+
 	switch (type)
 	{
 	case 1:
 		Ingame::stage = 1;
 		Player::coloring_per = 0;
 		OBJ->Add(new Enemy(7), "Boss")->pos = CENTER;
-		OBJ->Add(new Enemy(1), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		OBJ->Add(new Enemy(2), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(1), "Enemy1")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(2), "Enemy2")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		enemy_count = 2;
 		score = 0;
+		GameOver = false;
 		break;
 	case 2:
 		Ingame::stage = 2;
 		Player::coloring_per = 0;
 		OBJ->Add(new Enemy(8), "Boss")->pos = CENTER;
-		OBJ->Add(new Enemy(3), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		OBJ->Add(new Enemy(4), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		OBJ->Add(new Enemy(5), "Eenmy")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(3), "Enemy1")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(4), "Enemy2")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(5), "Enemy3")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		enemy_count = 3;
+		GameOver = false;
 		break;
 	case 3:
 		Ingame::stage = 3;
 		Player::coloring_per = 0;
 		OBJ->Add(new Enemy(12), "Boss")->pos = CENTER;
+		enemy_count = 0;
+		GameOver = false;
 		break;
 	}
-
 	// 플레이어 추가 / 플레이어 찾기
 	OBJ->Add(new Player, "player")->pos = { CENTER.x,float(B) };
 	player = OBJ->Find("player");
@@ -58,18 +66,36 @@ void Ingame::Init()
 	Ui_time = IMG->Add("ui_ingame_time");
 	Ui_timer_tank = IMG->Add("ui_ingame_time tank");
 	Ui_timer_bar = IMG->Add("ui_ingame_time bar");
+	game_over = new Window(IMG->Add("blind"), CENTER, 1600, 900);
+	gov_box = IMG->Add("gov_box");
 
 	OBJ->Add(new Mouse, "Mouse");
 
 	timer = 60;
 	playtime = TIME->Create(timer);
+
+	boss = OBJ->Find("Boss");
+	enemy[0] = OBJ->Find("Enemy1");
+	enemy[1] = OBJ->Find("Enemy2");
+	enemy[2] = OBJ->Find("Enemy3");
+
 }
 
 void Ingame::Update()
 {
+	if (player->hp <= 0)
+	{
+		GameOver = true;
+		game_over->On();
+		boss->flag = true;
+		for (int i = 0; i < enemy_count; i++)
+			enemy[i]->flag = true;
+		playtime->flag = false;
+	}
 	if (INPUT->Down('S'))
 	{
 		Ingame::GameStart = true;
+		playtime->Start();
 	}
 	// M 누르면 마우스 추가
 	if (INPUT->Down('M'))
@@ -77,7 +103,7 @@ void Ingame::Update()
 		OBJ->Add(new Mouse, "Mouse");
 	}
 
-	if (Player::coloring_per >= 10)
+	if (Player::coloring_per >= 1)
 	{
 		switch (type)
 		{
@@ -85,7 +111,6 @@ void Ingame::Update()
 			IMG->ReLoad("BG1");
 			stage = 2;
 			SCENE->Set("stage2");
-			type = 2;
 			break;
 		case 2:
 			SCENE->Set("stage3");
@@ -157,18 +182,32 @@ void Ingame::Update()
 		}
 	}
 
+	if (Ingame::GameOver)
+	{
+		if (box_size >= 1)
+		{
+			box_size -= 0.02;
+			box_alpha -= 75;
+		}
+		else
+			box_alpha = 255;
+
+	}
 }
 
 void Ingame::Render()
 {
+	// GAMEOVER
+	if (Ingame::GameOver)
+	{
+		gov_box->Render({ WINX / 2, WINY / 2 - 100 }, RT_ZERO, { box_size, box_size }, 0, 0.14, D3DCOLOR_RGBA(255, 255, 255, box_alpha));
+	}
+
+	// GAMESTART
 	if (!Ingame::GameStart)
 	{
-		blind->Render({ WINX / 2, blind_y }, RT_ZERO, { 1,1 }, 0, 0.1);
+		blind->Render({ WINX / 2, blind_y }, RT_ZERO, { 1,1 }, 0, 0.15);
 		Ui_gst_tank->Render({ WINX / 2, gst_y }, RT_ZERO, { 1,1 }, 0, 0.09, D3DCOLOR_RGBA(255, 255, 255, alpha));
-
-		char str[256];
-		sprintf(str, "%.0f", dive_time);		//스코어
-		IMG->Write(str, { 290, Y - 32 }, 50, D3DCOLOR_XRGB(0, 0, 0), false);
 
 		if (gst_y >= WINY / 2 + 20)
 		{

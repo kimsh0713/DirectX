@@ -22,8 +22,16 @@ public:
 	Texture* Ui_timer_tank;
 	Texture* Ui_timer_bar;
 
+	// GameOver
+	float box_size = 1.5;
+	int box_alpha = 255;
+	Window* game_over;
+	Texture* gov_box;
+
 	// OBJECT
 	Obj* player;
+	Obj* enemy[10];
+	Obj* boss;
 
 	// TIMER
 	int timer;
@@ -45,6 +53,7 @@ public:
 	int enemy_count = 3;
 
 	static bool GameStart;
+	static bool GameOver;
 
 	static int stage;
 

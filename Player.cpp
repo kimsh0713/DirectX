@@ -90,11 +90,11 @@ void Player::Update()
 	{
 		Hurt();
 	}
-	if (hp <= 0)
-	{
-		IMG->ReLoad("BG1");
-		SCENE->Set("fail");
-	}
+	//if (hp <= 0)
+	//{
+	//	IMG->ReLoad("BG1");
+	//	//SCENE->Set("fail");
+	//}
 
 
 	main_col->Set(pos, 5, 5);
@@ -117,9 +117,10 @@ void Player::Update()
 	//		rot = 0;
 	//}
 
-	if (Ingame::GameStart == true)
+	if (Ingame::GameStart)
 	{
-		InputKey();
+		if (!Ingame::GameOver)
+			InputKey();
 	}
 }
 
@@ -128,7 +129,8 @@ void Player::Render()
 	main_col->Draw();
 	bg2->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
 	bg->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
-	img->Render(pos, RT_ZERO, { 1,1 }, D3DXToRadian(rot),0.38);
+	if (!Ingame::GameOver)
+		img->Render(pos, RT_ZERO, { 1,1 }, D3DXToRadian(rot), 0.38);
 }
 
 void Player::Release()

@@ -15,30 +15,15 @@ void HotKey::F1()
 
 void HotKey::F2()
 {
-	int r = RANDOM->INT(1, 4);
-	switch (r)
-	{
-	case 1:
-		player->speed = 4;
-		break;
-	case 2:
-		((Player*)player)->def++;
-		break;
-	case 3:
-		F1();
-		break;
-	case 4:
-		F3();
-		break;
-	}
+	player->hp--;
 }
 
 void HotKey::F3()
 {
-	if (player->hp < 5)
+	if (player->hp < 3)
 		player->hp++;
 	else
-		score += 50;
+		Player::Score += 50;
 }
 
 void HotKey::F4()
@@ -49,8 +34,8 @@ void HotKey::F4()
 void HotKey::F5()
 {
 	IMG->ReLoad("BG1");
-	Ingame::stage = 1;
-	SCENE->Set("stage1");
+	Player::coloring_per = 80;
+	//SCENE->Set("stage1");
 }
 
 void HotKey::F6()

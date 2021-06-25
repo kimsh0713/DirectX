@@ -37,7 +37,7 @@ void Window::Update()
 void Window::Render()
 {
 	if (isOn)
-		bg->Render(pos);
+		bg->Render(pos, RT_ZERO, { 1,1 },0,0.2);
 }
 
 void Window::Release()
