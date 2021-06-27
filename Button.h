@@ -4,10 +4,11 @@ class Button :
     public Obj
 {
 public:
-    Button(Texture* bg, V2 pos, const string& text, float w, float h, float depth, function<void()> func);
+    Button(Texture* bg,Texture* bg2, V2 pos, const string& text, float w, float h, float depth, function<void()> func);
 
     float W, H;
     Texture* bg;
+    Texture* bg2;
     V2 b_pos;
     string text;
     function<void()> func;
@@ -17,6 +18,7 @@ public:
     float depth;
 
     bool isOn;
+    bool ismouse;
 
     void On();
     void Off();

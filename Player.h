@@ -29,6 +29,7 @@ public:
     static int cell[CELLSIZE_X][CELLSIZE_Y];
     static float coloring_per;
     static bool isHurt;
+    static int bg_alpha;
     // Score
     static int Score;
 

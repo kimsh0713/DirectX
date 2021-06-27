@@ -8,7 +8,7 @@ Window::Window(Texture* bg, V2 pos, float w, float h)
 
 	float right = pos.x + w / 2, top = pos.y - h / 2;
 
-	exit = new Button(IMG->Add("credit_button"), { right + 50 ,top + 120}, "", 70, 70, 0, [&]()->void { Off(); });
+	exit = new Button(IMG->Add("credit_button"), IMG->Add("credit_button_cson"), { right + 50 ,top + 120}, "", 70, 70, 0, [&]()->void { Off(); });
 	exit->Off();
 
 	OBJ->Add(this, "Window");

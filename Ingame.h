@@ -23,10 +23,46 @@ public:
 	Texture* Ui_timer_bar;
 
 	// GameOver
+	int over_count = 1;
+	float game_x = -300;
+	float box_x = 800;
 	float box_size = 1.5;
-	int box_alpha = 255;
-	Window* game_over;
+	int box_alpha = 0;
+	int over_alpha = 0;
+	int ink1_alpha = 0;
+	int ink2_alpha = 0;
+	int sc_box_alpha = 0;
+	int score_alpha = 0;
+	bool sc_txt_render = false;
+	bool score_render = false;
+	Texture* game_over;
 	Texture* gov_box;
+	Texture* gov_game;
+	Texture* gov_over;
+	Texture* gov_ink1;
+	Texture* gov_ink2;
+	Texture* score_box;
+	Texture* sc_txt;
+	Button* gov_agbtn;
+	Button* gov_backbtn;
+	// BOX shake
+	int shake_count = 1;
+	bool shake = true;
+	float shake_time = 0;
+
+	// GameClear
+	int clear_count = 1;
+	int render_count = 0;
+	float stage_x = -500;
+	int cl_box_alpha = 0;
+	int clear_alpha = 0;
+	int light_alpha = 0;
+	Texture* gcl_box;
+	Texture* gcl_stage;
+	Texture* gcl_clear;
+	Texture* gcl_light;
+	Button* gcl_nextbtn;
+	Button* gcl_backbtn;
 
 	// OBJECT
 	Obj* player;
@@ -36,6 +72,7 @@ public:
 	// TIMER
 	int timer;
 	Timer* playtime;
+	Timer* during;
 
 	// GameStart Ui
 	float gst_y = -100;
@@ -43,19 +80,47 @@ public:
 	int alpha = 255;
 	// Ui
 	float Y = 60;
+	float sc_Y = 50;
+	float sc_X0 = 425;
+	float sc_X1 = 399.8;
+	float sc_X2 = 374.6;
+	float sc_X3 = 349.4;
+	float sc_X4 = 324.2;
+	float sc_X5 = 299;
 
 	// DIVE
 	int dive_count = 0;
 	bool dive_type = false;
 	float dive_time = 0;
 
+	// Number
+	Texture * zero;
+	Texture * one;
+	Texture * two;
+	Texture * three;
+	Texture * four;
+	Texture * five;
+	Texture * six;
+	Texture * seven;
+	Texture * eight;
+	Texture * nine;
+	Texture * comma;
+
+	float per;
+
 	int type;
 	int enemy_count = 3;
+	bool render = false;
 
 	static bool GameStart;
 	static bool GameOver;
+	static bool GameClear;
 
 	static int stage;
+
+	void Reset();
+	int Nums(int num, int index);
+	Texture* TextureNum(int num);
 
 	// Scene을(를) 통해 상속됨
 	virtual void Init() override;

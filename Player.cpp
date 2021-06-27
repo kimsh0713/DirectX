@@ -7,6 +7,7 @@ int Player::cell[CELLSIZE_X][CELLSIZE_Y] = { 0, };
 float Player::coloring_per = 0;
 bool Player::isHurt = false;
 int Player::Score = 0;
+int Player::bg_alpha = 255;
 
 void Player::Init()
 {
@@ -119,7 +120,7 @@ void Player::Update()
 
 	if (Ingame::GameStart)
 	{
-		if (!Ingame::GameOver)
+		if (!Ingame::GameOver && !Ingame::GameClear)
 			InputKey();
 	}
 }
@@ -128,8 +129,8 @@ void Player::Render()
 {
 	main_col->Draw();
 	bg2->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
-	bg->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
-	if (!Ingame::GameOver)
+	bg->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1,D3DCOLOR_RGBA(255,255,255,bg_alpha));
+	if (!Ingame::GameOver && !Ingame::GameClear)
 		img->Render(pos, RT_ZERO, { 1,1 }, D3DXToRadian(rot), 0.38);
 }
 

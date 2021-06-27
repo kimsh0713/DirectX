@@ -28,13 +28,13 @@ void HotKey::F3()
 
 void HotKey::F4()
 {
-	// goto menu
+	player->speed++;
 }
 
 void HotKey::F5()
 {
-	IMG->ReLoad("BG1");
 	Player::coloring_per = 80;
+	//IMG->ReLoad("BG1");
 	//SCENE->Set("stage1");
 }
 

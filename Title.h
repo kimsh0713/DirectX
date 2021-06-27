@@ -23,6 +23,7 @@ public:
     Button* setting;
 
     Window* win_credit;
+    Window* win_howto;
     ScrollMap* map;
 
     int type;
@@ -30,6 +31,7 @@ public:
 
     bool isDown = true;
     bool isDown2 = true;
+    bool iswindow = false;
     float Y;
     float Y2;
     float i = 0;

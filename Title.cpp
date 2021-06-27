@@ -9,6 +9,8 @@ Title::Title(int type)
 void Title::Init()
 {
 	OBJ->Add(new Mouse, "Mouse");
+	Ingame::GameClear = false;
+	Ingame::GameOver = false;
 
 	switch (type)
 	{
@@ -19,12 +21,13 @@ void Title::Init()
 		bg = IMG->Add("title_background");
 		boy = IMG->Add("title_boy");
 		clock = IMG->Add("title_clock");
-		start = new Button(IMG->Add("title_button_start"), { V2(WINX / 2 - 450, WINY / 2 + 125) }, "", 300, 150, 1, [&]()->void {SCENE->Set("stage1"); IMG->ReLoad("BG1"); IMG->ReLoad("BG3"); IMG->ReLoad("BG5"); });
-		credit = new Button(IMG->Add("title_button_credit"), { V2(WINX / 2, WINY / 2 + 125) }, "", 300, 150, 1, [&]()->void {win_credit->On(); });
-		howto = new Button(IMG->Add("title_button_howto"), { V2(WINX / 2 + 450, WINY / 2 + 125) }, "", 300, 150, 1, [&]()->void {});
-		exit = new Button(IMG->Add("title_button_exit"), { V2(100, WINY - 110) }, "", 110, 110, 1, [&]()->void {PostQuitMessage(0); });
-		setting = new Button(IMG->Add("title_button_setting"), { V2(WINX - 100, WINY - 110) }, "", 110, 110, 1, [&]()->void {});
+		start = new Button(IMG->Add("title_button_start"), IMG->Add("title_button_start3"), { V2(WINX / 2 - 450, WINY / 2 + 55) }, "", 277, 145, 1, [&]()->void {SCENE->Set("stage1"); IMG->ReLoad("BG1"); IMG->ReLoad("BG3"); IMG->ReLoad("BG5"); });
+		credit = new Button(IMG->Add("title_button_credit"), IMG->Add("title_button_credit3"), { V2(WINX / 2, WINY / 2 + 55) }, "", 277, 145, 1, [&]()->void {win_credit->On(); iswindow = true; });
+		howto = new Button(IMG->Add("title_button_howto"), IMG->Add("title_button_howto3"), { V2(WINX / 2 + 450, WINY / 2 + 55) }, "", 277, 145, 1, [&]()->void {win_howto->On(); iswindow = true; });
+		exit = new Button(IMG->Add("title_button_exit"), IMG->Add("crsron_exit"), { V2(100, WINY - 110) }, "", 110, 110, 1, [&]()->void {PostQuitMessage(0); });
+		setting = new Button(IMG->Add("title_button_setting"), IMG->Add("crsron_setting"), { V2(WINX - 100, WINY - 110) }, "", 110, 110, 1, [&]()->void {});
 		win_credit = new Window(IMG->Add("credit screen"), CENTER, 900, 900);
+		win_howto = new Window(IMG->Add("howtoplay screen"), CENTER, 900, 900);
 		eb_anim = vector<Texture*>
 		{
 			IMG->Add("eb1"),
@@ -52,6 +55,9 @@ void Title::Init()
 
 void Title::Update()
 {
+	start->b_pos.y = start->pos.y + 88;
+	credit->b_pos.y = credit->pos.y + 88;
+	howto->b_pos.y = howto->pos.y + 88;
 	// M 누르면 마우스 추가
 	if (INPUT->Down('M'))
 	{
@@ -99,12 +105,14 @@ void Title::Update()
 	}
 	else
 		isDown2 = true;
+	if (!win_credit->isOn && !win_howto->isOn)
+		iswindow = false;
 }
 
 void Title::Render()
 {
 	bg->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1, D3DCOLOR_RGBA(r, g, b, 255));
-	if (!win_credit->isOn)
+	if (!iswindow)
 	{
 		start->On();
 		credit->On();
@@ -117,18 +125,21 @@ void Title::Render()
 		g = 255;
 		b = 255;
 	}
-	else if (win_credit->isOn)
+	else
 	{
 		start->Off();
 		credit->Off();
 		howto->Off();
 		exit->Off();
 		setting->Off();
-		eb_anim[index]->Render({1060, WINY / 2 + 50}, RT_ZERO, {1,1},0,0);
-		sh_anim[index]->Render({570, WINY / 2 + 50}, RT_ZERO, {1,1},0,0);
 		r = 120;
 		g = 120;
 		b = 120;
+	}
+	if (win_credit->isOn)
+	{
+		eb_anim[index]->Render({ 1060, WINY / 2 + 50 }, RT_ZERO, { 1,1 }, 0, 0);
+		sh_anim[index]->Render({ 570, WINY / 2 + 50 }, RT_ZERO, { 1,1 }, 0, 0);
 	}
 }
 
