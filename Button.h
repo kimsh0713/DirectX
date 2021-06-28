@@ -18,7 +18,7 @@ public:
     float depth;
 
     bool isOn;
-    bool ismouse;
+    bool ismouse = false;
 
     void On();
     void Off();

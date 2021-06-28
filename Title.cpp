@@ -12,6 +12,8 @@ void Title::Init()
 	Ingame::GameClear = false;
 	Ingame::GameOver = false;
 
+	title_button_cSound = SOUND->Add("", L"button_click");
+
 	switch (type)
 	{
 	case 1:
@@ -21,9 +23,9 @@ void Title::Init()
 		bg = IMG->Add("title_background");
 		boy = IMG->Add("title_boy");
 		clock = IMG->Add("title_clock");
-		start = new Button(IMG->Add("title_button_start"), IMG->Add("title_button_start3"), { V2(WINX / 2 - 450, WINY / 2 + 55) }, "", 277, 145, 1, [&]()->void {SCENE->Set("stage1"); IMG->ReLoad("BG1"); IMG->ReLoad("BG3"); IMG->ReLoad("BG5"); });
-		credit = new Button(IMG->Add("title_button_credit"), IMG->Add("title_button_credit3"), { V2(WINX / 2, WINY / 2 + 55) }, "", 277, 145, 1, [&]()->void {win_credit->On(); iswindow = true; });
-		howto = new Button(IMG->Add("title_button_howto"), IMG->Add("title_button_howto3"), { V2(WINX / 2 + 450, WINY / 2 + 55) }, "", 277, 145, 1, [&]()->void {win_howto->On(); iswindow = true; });
+		start = new Button(IMG->Add("title_button_start"), IMG->Add("title_button_start3"), { V2(WINX / 2 - 450, WINY / 2 + 55) }, "", 277, 145, 0.5, [&]()->void {SCENE->Set("stage1"); IMG->ReLoad("BG1"); IMG->ReLoad("BG3"); IMG->ReLoad("BG5"); title_button_cSound->Copy(); });
+		credit = new Button(IMG->Add("title_button_credit"), IMG->Add("title_button_credit3"), { V2(WINX / 2, WINY / 2 + 55) }, "", 277, 145, 0.5, [&]()->void {win_credit->On(); iswindow = true; title_button_cSound->Copy(); });
+		howto = new Button(IMG->Add("title_button_howto"), IMG->Add("title_button_howto3"), { V2(WINX / 2 + 450, WINY / 2 + 55) }, "", 277, 145, 0.5, [&]()->void {win_howto->On(); iswindow = true; title_button_cSound->Copy(); });
 		exit = new Button(IMG->Add("title_button_exit"), IMG->Add("crsron_exit"), { V2(100, WINY - 110) }, "", 110, 110, 1, [&]()->void {PostQuitMessage(0); });
 		setting = new Button(IMG->Add("title_button_setting"), IMG->Add("crsron_setting"), { V2(WINX - 100, WINY - 110) }, "", 110, 110, 1, [&]()->void {});
 		win_credit = new Window(IMG->Add("credit screen"), CENTER, 900, 900);

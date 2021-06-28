@@ -22,6 +22,8 @@ public:
     Button* exit;
     Button* setting;
 
+    Sound* title_button_cSound;
+
     Window* win_credit;
     Window* win_howto;
     ScrollMap* map;

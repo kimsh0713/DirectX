@@ -19,7 +19,7 @@ void Sound::Stop()
 SoundMgr::SoundMgr()
 {
     mgr = new CSoundManager;
-    mgr->Initialize(DXUTGetHWND(), 2);
+    mgr->Initialize(DXUTGetHWND(),2);
 }
 
 SoundMgr::~SoundMgr()
