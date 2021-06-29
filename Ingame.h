@@ -118,6 +118,8 @@ public:
 
 	static int stage;
 
+	Sound* Back_Ground_music;
+
 	void Reset();
 	int Nums(int num, int index);
 	Texture* TextureNum(int num);

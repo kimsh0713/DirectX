@@ -119,10 +119,23 @@ void Ingame::Init()
 	gcl_backbtn = new Button(IMG->Add("gcl_backbtn"), IMG->Add("gcl_backbtn_cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_backbtn->Off(); GameClear = false; GameOver = false; SCENE->Set("title"); Reset(); });
 	gcl_nextbtn->Off();
 	gcl_backbtn->Off();
+
+	Back_Ground_music = SOUND->Find("BackGround_music");
+	Back_Ground_music->p->Reset();
 }
 
 void Ingame::Update()
 {
+
+	if (INPUT->Down('A'))
+	{
+		Back_Ground_music->Stop();
+	}
+	if (INPUT->Down('Q'))
+	{
+		Back_Ground_music->Play(1);
+	}
+
 	per = Player::coloring_per * 10;
 	if (during->IsStop())
 		render = true;

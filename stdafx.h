@@ -33,6 +33,7 @@ static bool WIN = true;
 static float time_scale = 1;
 static int score = 0;
 static bool sound = true;
+static bool music = true;
 
 const bool ColDraw = true;
 

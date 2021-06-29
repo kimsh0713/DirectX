@@ -41,6 +41,8 @@ Sound* SoundMgr::Add(const string& key, const wstring& path)
         mgr->Create(&cs, wstr);
         Sound* s = new Sound(cs);
         sounds[key] = s;
+        swprintf(wstr, L"\n\n\n./Resource/sound/%s.wav\n\n\n", path.c_str());
+        OutputDebugStringW(wstr);
         return s;
     }
     return f->second;

@@ -11,8 +11,6 @@ public:
     Texture* clock;
     Texture* a;
     
-    Texture* sound_on;
-    Texture* sound_mute;
 
     vector<Texture*> sh_anim;
     vector<Texture*> eb_anim;
@@ -25,10 +23,17 @@ public:
     Button* exit;
     Button* setting;
 
+    Texture* sound_on;
+    Texture* sound_mute;
+
+    Texture* music_on;
+    Texture* music_mute;
+
     Button* sound_button;
-    Button* sound_button_mute;
+    Button* music_button;
 
     Sound* title_button_cSound;
+    Sound* Back_Ground_music;
 
     Window* win_credit;
     Window* win_howto;
