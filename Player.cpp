@@ -120,7 +120,7 @@ void Player::Update()
 
 	if (Ingame::GameStart)
 	{
-		if (!Ingame::GameOver && !Ingame::GameClear)
+		if (!Ingame::GameOver && !Ingame::GameClear && !Ingame::GamePause)
 			InputKey();
 	}
 }

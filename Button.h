@@ -12,6 +12,7 @@ public:
     V2 b_pos;
     string text;
     function<void()> func;
+    Sound* title_button_Sound;
 
     int r = 255, g = 255, b = 255;
 

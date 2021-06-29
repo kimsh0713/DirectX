@@ -31,6 +31,7 @@ void Button::Off()
 
 void Button::Init()
 {
+	title_button_Sound = SOUND->Add("button_click", L"button_click");
 }
 
 void Button::Update()
@@ -71,7 +72,7 @@ void Button::Enter(Col* p)
 			ismouse = true;
 			//r = 155;
 			//g = 155;
-			//b = 155;
+			//b = 155;	
 			break;
 		}
 }
@@ -86,6 +87,10 @@ void Button::Stay(Col* p)
 			{
 				ismouse = false;
 				func();
+				if (SOUND->sound)
+				{
+					title_button_Sound->Copy();
+				}
 			}
 			break;
 		}

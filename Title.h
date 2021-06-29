@@ -32,7 +32,7 @@ public:
     Button* sound_button;
     Button* music_button;
 
-    Sound* title_button_cSound;
+    //Sound* title_button_Sound;
     Sound* Back_Ground_music;
 
     Window* win_credit;

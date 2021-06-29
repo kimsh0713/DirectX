@@ -7,6 +7,7 @@ int Ingame::stage = 1;
 bool Ingame::GameStart = false;
 bool Ingame::GameOver = false;
 bool Ingame::GameClear = false;
+bool Ingame::GamePause = false;
 
 Ingame::Ingame(int type)
 	:type(type)
@@ -60,7 +61,7 @@ void Ingame::Init()
 	Ui_gst_dive = IMG->Add("gst_dive");
 	blind = IMG->Add("blind");
 	Ui_base = IMG->Add("ui_ingame_base");
-	Ui_pause = new Button(IMG->Add("ui_ingame_pause button"), IMG->Add("ui_ingame_pause button_muscur"), { 80 , Y - 10 }, "", 60, 60, 0.2, [&]()->void {SCENE->Set("title"); });
+	Ui_pause = new Button(IMG->Add("ui_ingame_pause button"), IMG->Add("ui_ingame_pause button_muscur"), { 80 , Y - 10 }, "", 60, 60, 0.21, [&]()->void { if (start) { win_pause->On(); GamePause = true; } });
 	Ui_score = IMG->Add("ui_ingame_score");
 	Ui_stage = IMG->Add("ui_ingame_stage");
 	Ui_precent = IMG->Add("ui_ingame_%");
@@ -69,6 +70,14 @@ void Ingame::Init()
 	Ui_time = IMG->Add("ui_ingame_time");
 	Ui_timer_tank = IMG->Add("ui_ingame_time tank");
 	Ui_timer_bar = IMG->Add("ui_ingame_time bar");
+
+	// PAUSE
+	win_pause = new Window(IMG->Add("pause screen"), CENTER, 900, 900, { 800, 800 });
+	continue_button = new Button(IMG->Add("continue button"), IMG->Add("continue button_cson"), { WINX / 2 + 100, WINY / 2 + 162 }, "", 114, 114, 0.19, [&]()->void {Ingame::GamePause = false; });
+	continue_button->Off();
+	main_button = new Button(IMG->Add("main button"), IMG->Add("main button_cson"), { WINX / 2 - 90, WINY / 2 + 162 }, "", 114, 114, 0.19, [&]()->void {Ingame::GamePause = false; SCENE->Set("title"); Reset(); });
+	main_button->Off();
+
 	// GAME OVER
 	game_over = IMG->Add("blind");
 	gov_box = IMG->Add("gov_box");
@@ -107,16 +116,16 @@ void Ingame::Init()
 	nine = IMG->Add("9");
 	comma = IMG->Add("comma");
 
-	playtime->flag = true;
+	//playtime->flag = true;
 	// OVER_BUTTON
-	gov_agbtn = new Button(IMG->Add("gov_agbtn"),IMG->Add("gov_agbtn cson"), { WINX / 2 - 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gov_agbtn->Off();  if (type == 1) { SCENE->Set("stage1"); } else if (type == 2) { SCENE->Set("stage2"); } else if (type == 3) { SCENE->Set("stage3"); }player->hp = 3; GameOver = false; GameClear = false; Reset(); });
-	gov_backbtn = new Button(IMG->Add("gov_backbtn"),IMG->Add("gcl_backbtn_cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gov_backbtn->Off(); GameOver = false; GameClear = false;  SCENE->Set("title"); Reset(); });
+	gov_agbtn = new Button(IMG->Add("gov_agbtn"), IMG->Add("gov_agbtn cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gov_agbtn->Off();  if (type == 1) { SCENE->Set("stage1"); } else if (type == 2) { SCENE->Set("stage2"); } else if (type == 3) { SCENE->Set("stage3"); }player->hp = 3; GameOver = false; GameClear = false; Reset(); });
+	gov_backbtn = new Button(IMG->Add("gov_backbtn"), IMG->Add("gcl_backbtn_cson"), { WINX / 2 - 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gov_backbtn->Off(); GameOver = false; GameClear = false;  SCENE->Set("title"); Reset(); });
 	gov_agbtn->Off();
 	gov_backbtn->Off();
 
 	// CLEAR_BUTTON
-	gcl_nextbtn = new Button(IMG->Add("gcl_nextbtn"), IMG->Add("gcl_nextbtn_cson"), { WINX / 2 - 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_nextbtn->Off(); if (type == 1) { SCENE->Set("stage2"); } else if (type == 2) { SCENE->Set("stage3"); } else if (type == 3) {}player->hp = 3; GameClear = false; GameOver = false; Reset(); });
-	gcl_backbtn = new Button(IMG->Add("gcl_backbtn"), IMG->Add("gcl_backbtn_cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_backbtn->Off(); GameClear = false; GameOver = false; SCENE->Set("title"); Reset(); });
+	gcl_nextbtn = new Button(IMG->Add("gcl_nextbtn"), IMG->Add("gcl_nextbtn_cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_nextbtn->Off(); if (type == 1) { SCENE->Set("stage2"); } else if (type == 2) { SCENE->Set("stage3"); } else if (type == 3) {}player->hp = 3; GameClear = false; GameOver = false; Reset(); });
+	gcl_backbtn = new Button(IMG->Add("gcl_backbtn"), IMG->Add("gcl_backbtn_cson"), { WINX / 2 - 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_backbtn->Off(); GameClear = false; GameOver = false; SCENE->Set("title"); Reset(); });
 	gcl_nextbtn->Off();
 	gcl_backbtn->Off();
 
@@ -126,7 +135,6 @@ void Ingame::Init()
 
 void Ingame::Update()
 {
-
 	if (INPUT->Down('A'))
 	{
 		Back_Ground_music->Stop();
@@ -152,6 +160,7 @@ void Ingame::Update()
 	{
 		Ingame::GameStart = true;
 		playtime->Start();
+		start = true;
 	}
 
 	// M 누르면 마우스 추가
@@ -181,7 +190,7 @@ void Ingame::Update()
 	}
 
 	// 게임 클리어 퍼센트
-	if (per >= 80)
+	if (per >= 800)
 	{
 		GameClear = true;
 		boss->flag = true;
@@ -242,8 +251,9 @@ void Ingame::Update()
 				alpha = 0;
 			if (blind_y <= -850)
 			{
-				playtime->Start();
 				Ingame::GameStart = true;
+				playtime->Start();
+				start = true;
 			}
 		}
 	}
@@ -473,8 +483,18 @@ void Ingame::Update()
 		break;
 	}
 
+	// GAME PAUSE
+	if (Ingame::GamePause)
+	{
+		continue_button->On();
+		main_button->On();
+	}
+	else
+	{
+		win_pause->Off();
+	}
 
-	if (Ingame::GameOver || Ingame::GameClear)
+	if (Ingame::GameOver || Ingame::GameClear || Ingame::GamePause)
 		playtime->flag = false;
 }
 
@@ -545,52 +565,62 @@ void Ingame::Render()
 		}
 	}
 
-	// SCORE
-	TextureNum(Nums(Player::Score, 0))->Render({ sc_X0, sc_Y+5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.2);
-	TextureNum(Nums(Player::Score, 1))->Render({ sc_X1, sc_Y+5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.2);
-	TextureNum(Nums(Player::Score, 2))->Render({ sc_X2, sc_Y+5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.2);
-	TextureNum(Nums(Player::Score, 3))->Render({ sc_X3, sc_Y+5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.2);
-	TextureNum(Nums(Player::Score, 4))->Render({ sc_X4, sc_Y+5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.2);
-	TextureNum(Nums(Player::Score, 5))->Render({ sc_X5, sc_Y+5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.2);
-
-	// 스테이지
-	TextureNum(Nums(Ingame::stage, 0))->Render({ 665, sc_Y }, RT_ZERO, { 1,1 }, 0, 0.2);
-
-	// 점령도
-	TextureNum(Nums((int)per, 0))->Render({ 800, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
-	TextureNum(Nums((int)per, 1))->Render({ 752, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
-	switch (Nums((int)per, 2))
+	// GAMEPAUSE
+	if (Ingame::GamePause)
 	{
-	case 1:
-		one->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
-		break;
-	case 2:
-		two->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
-		break;
-	case 3:
-		three->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
-		break;
-	case 4:
-		four->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
-		break;
-	case 5:
-		five->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
-		break;
-	case 6:
-		six->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
-		break;
-	case 7:
-		seven->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
-		break;
-	case 8:
-		eight->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
-		break;
-	case 9:
-		nine->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
-		break;
+		game_over->Render(CENTER, RT_ZERO, { 1,1 }, 0, 0.201);
 	}
 
-	comma->Render({ 776, sc_Y + 8 }, RT_ZERO, { 0.9,0.9 }, 0, 0.2);
+	// SCORE
+	{
+		TextureNum(Nums(Player::Score, 0))->Render({ sc_X0, sc_Y + 5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.21);
+		TextureNum(Nums(Player::Score, 1))->Render({ sc_X1, sc_Y + 5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.21);
+		TextureNum(Nums(Player::Score, 2))->Render({ sc_X2, sc_Y + 5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.21);
+		TextureNum(Nums(Player::Score, 3))->Render({ sc_X3, sc_Y + 5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.21);
+		TextureNum(Nums(Player::Score, 4))->Render({ sc_X4, sc_Y + 5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.21);
+		TextureNum(Nums(Player::Score, 5))->Render({ sc_X5, sc_Y + 5 }, RT_ZERO, { 0.7,0.7 }, 0, 0.21);
+	}
+
+	// 스테이지
+	TextureNum(Nums(Ingame::stage, 0))->Render({ 665, sc_Y }, RT_ZERO, { 1,1 }, 0, 0.21);
+
+	// 점령도
+	{
+		TextureNum(Nums((int)per, 0))->Render({ 800, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
+		TextureNum(Nums((int)per, 1))->Render({ 752, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
+		switch (Nums((int)per, 2))
+		{
+		case 1:
+			one->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
+			break;
+		case 2:
+			two->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
+			break;
+		case 3:
+			three->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
+			break;
+		case 4:
+			four->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
+			break;
+		case 5:
+			five->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
+			break;
+		case 6:
+			six->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
+			break;
+		case 7:
+			seven->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
+			break;
+		case 8:
+			eight->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
+			break;
+		case 9:
+			nine->Render({ 718, sc_Y }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
+			break;
+		}
+	}
+
+	comma->Render({ 776, sc_Y + 8 }, RT_ZERO, { 0.9,0.9 }, 0, 0.21);
 
 	Ui_base->Render({ WINX / 2, Y }, RT_ZERO, { 1,1 }, 0, 0.3);
 	Ui_score->Render({ 200, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
@@ -666,6 +696,14 @@ void Ingame::Reset()
 	score_alpha = 0;
 	sc_txt_render = false;
 	score_render = false;
+	dive_count = 0;
+	dive_type = false;
+	dive_time = 0;
+	gst_y = -100;
+	blind_y = 450;
+	alpha = 255;
+	Ingame::GameStart = false;
+	Player::Score = 0;
 }
 
 int Ingame::Nums(int num, int index) //num에 스코어를 넣고, index 0 = 1의자리 index 1 = 2의 자리

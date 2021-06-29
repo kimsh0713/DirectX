@@ -15,6 +15,8 @@ class WaitTitle :
     float Y2;
     float i = 0;
 
+    Sound* Back_Ground_music;
+
     // Scene을(를) 통해 상속됨
     virtual void Init() override;
     virtual void Update() override;

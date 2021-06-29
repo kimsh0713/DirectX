@@ -64,6 +64,9 @@ public:
 	Button* gcl_nextbtn;
 	Button* gcl_backbtn;
 
+	// PAUSE
+	Window* win_pause;
+
 	// OBJECT
 	Obj* player;
 	Obj* enemy[10];
@@ -93,6 +96,10 @@ public:
 	bool dive_type = false;
 	float dive_time = 0;
 
+	// PAUSE
+	Button* continue_button;
+	Button* main_button;
+
 	// Number
 	Texture * zero;
 	Texture * one;
@@ -107,6 +114,7 @@ public:
 	Texture * comma;
 
 	float per;
+	bool start = false;
 
 	int type;
 	int enemy_count = 3;
@@ -115,6 +123,7 @@ public:
 	static bool GameStart;
 	static bool GameOver;
 	static bool GameClear;
+	static bool GamePause;
 
 	static int stage;
 
