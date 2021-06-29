@@ -23,13 +23,23 @@ void Title::Init()
 		bg = IMG->Add("title_background");
 		boy = IMG->Add("title_boy");
 		clock = IMG->Add("title_clock");
-		start = new Button(IMG->Add("title_button_start"), IMG->Add("title_button_start3"), { V2(WINX / 2 - 450, WINY / 2 + 55) }, "", 277, 145, 0.5, [&]()->void {SCENE->Set("stage1"); IMG->ReLoad("BG1"); IMG->ReLoad("BG3"); IMG->ReLoad("BG5"); title_button_cSound->Copy(); });
-		credit = new Button(IMG->Add("title_button_credit"), IMG->Add("title_button_credit3"), { V2(WINX / 2, WINY / 2 + 55) }, "", 277, 145, 0.5, [&]()->void {win_credit->On(); iswindow = true; title_button_cSound->Copy(); });
-		howto = new Button(IMG->Add("title_button_howto"), IMG->Add("title_button_howto3"), { V2(WINX / 2 + 450, WINY / 2 + 55) }, "", 277, 145, 0.5, [&]()->void {win_howto->On(); iswindow = true; title_button_cSound->Copy(); });
+		sound_on = IMG->Add("sound button");
+		sound_mute = IMG->Add("sound button_mute");
+		start = new Button(IMG->Add("title_button_start"), IMG->Add("title_button_start3"), { V2(WINX / 2 - 450, WINY / 2 + 55) }, "", 277, 145, 0.5, [&]()->void {SCENE->Set("stage1"); IMG->ReLoad("BG1"); IMG->ReLoad("BG3"); IMG->ReLoad("BG5"); if (sound) { title_button_cSound->Copy(); } });
+		credit = new Button(IMG->Add("title_button_credit"), IMG->Add("title_button_credit3"), { V2(WINX / 2, WINY / 2 + 55) }, "", 277, 145, 0.5, [&]()->void {win_credit->On(); iswindow = true; if (sound) { title_button_cSound->Copy(); } });
+		howto = new Button(IMG->Add("title_button_howto"), IMG->Add("title_button_howto3"), { V2(WINX / 2 + 450, WINY / 2 + 55) }, "", 277, 145, 0.5, [&]()->void {win_howto->On(); iswindow = true; if (sound) { title_button_cSound->Copy(); } });
 		exit = new Button(IMG->Add("title_button_exit"), IMG->Add("crsron_exit"), { V2(100, WINY - 110) }, "", 110, 110, 1, [&]()->void {PostQuitMessage(0); });
-		setting = new Button(IMG->Add("title_button_setting"), IMG->Add("crsron_setting"), { V2(WINX - 100, WINY - 110) }, "", 110, 110, 1, [&]()->void {});
-		win_credit = new Window(IMG->Add("credit screen"), CENTER, 900, 900);
-		win_howto = new Window(IMG->Add("howtoplay screen"), CENTER, 900, 900);
+		setting = new Button(IMG->Add("title_button_setting"), IMG->Add("crsron_setting"), { V2(WINX - 100, WINY - 110) }, "", 110, 110, 1, [&]()->void {win_setting->On(); iswindow = true; if (sound) { title_button_cSound->Copy(); } });
+
+		win_credit = new Window(IMG->Add("credit screen"), CENTER, 900, 900, { 50, 120 });
+		win_howto = new Window(IMG->Add("howtoplay screen"), CENTER, 900, 900, {50,120});
+		win_setting = new Window(IMG->Add("setting screen"), CENTER, 900, 900, {-50,170});
+
+		sound_button = new Button(sound_on, sound_on, { WINX / 2 - 150,WINY / 2 }, "", 197, 197, 0.1, [&]()->void {if (sound) sound = false; else sound = true; });
+		sound_button_mute = new Button(sound_on, sound_on, { WINX / 2 - 150,WINY / 2 }, "", 197, 197, 0.1, [&]()->void {if (sound) sound = false; else sound = true; });
+
+		sound_button->Off();
+		sound_button_mute->Off();
 		eb_anim = vector<Texture*>
 		{
 			IMG->Add("eb1"),
@@ -107,7 +117,7 @@ void Title::Update()
 	}
 	else
 		isDown2 = true;
-	if (!win_credit->isOn && !win_howto->isOn)
+	if (!win_credit->isOn && !win_howto->isOn && !win_setting->isOn)
 		iswindow = false;
 }
 
@@ -134,6 +144,7 @@ void Title::Render()
 		howto->Off();
 		exit->Off();
 		setting->Off();
+		sound_button->Off();
 		r = 120;
 		g = 120;
 		b = 120;
@@ -142,6 +153,10 @@ void Title::Render()
 	{
 		eb_anim[index]->Render({ 1060, WINY / 2 + 50 }, RT_ZERO, { 1,1 }, 0, 0);
 		sh_anim[index]->Render({ 570, WINY / 2 + 50 }, RT_ZERO, { 1,1 }, 0, 0);
+	}
+	if (win_setting->isOn)
+	{
+		sound_button->On();
 	}
 }
 

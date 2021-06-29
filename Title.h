@@ -10,6 +10,9 @@ public:
     Texture* boy;
     Texture* clock;
     Texture* a;
+    
+    Texture* sound_on;
+    Texture* sound_mute;
 
     vector<Texture*> sh_anim;
     vector<Texture*> eb_anim;
@@ -22,10 +25,14 @@ public:
     Button* exit;
     Button* setting;
 
+    Button* sound_button;
+    Button* sound_button_mute;
+
     Sound* title_button_cSound;
 
     Window* win_credit;
     Window* win_howto;
+    Window* win_setting;
     ScrollMap* map;
 
     int type;

@@ -4,7 +4,7 @@ class Window :
     public Obj
 {
 public:
-    Window(Texture* bg, V2 pos, float w, float h);
+    Window(Texture* bg, V2 pos, float w, float h, V2 pos2);
 
     Texture* bg;
     Button* exit;

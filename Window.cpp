@@ -1,14 +1,14 @@
 #include "DXUT.h"
 #include "Window.h"
 
-Window::Window(Texture* bg, V2 pos, float w, float h)
+Window::Window(Texture* bg, V2 pos, float w, float h,V2 pos2)
 	:bg(bg), exit(), isOn(false)
 {
 	this->pos = pos;
 
 	float right = pos.x + w / 2, top = pos.y - h / 2;
 
-	exit = new Button(IMG->Add("credit_button"), IMG->Add("credit_button_cson"), { right + 50 ,top + 120}, "", 70, 70, 0, [&]()->void { Off(); });
+	exit = new Button(IMG->Add("credit_button"), IMG->Add("credit_button_cson"), { right + pos2.x ,top + pos2.y}, "", 70, 70, 0, [&]()->void { Off(); });
 	exit->Off();
 
 	OBJ->Add(this, "Window");

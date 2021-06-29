@@ -178,8 +178,8 @@ void Ingame::Update()
 		//switch (type)
 		//{
 		//case 1:
-		//	//stage = 2;
-		//	//SCENE->Set("stage2");
+		//	stage = 2;
+		//	SCENE->Set("stage2");
 		//	break;
 		//case 2:
 		//	SCENE->Set("stage3");
