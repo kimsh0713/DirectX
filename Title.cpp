@@ -38,10 +38,13 @@ void Title::Init()
 		win_howto = new Window(IMG->Add("howtoplay screen"), CENTER, 900, 900, {50,120});
 		win_setting = new Window(IMG->Add("setting screen"), CENTER, 900, 900, {-50,170});
 
-		sound_button = new Button(sound_on, sound_on, { WINX / 2 - 150,WINY / 2 }, "", 197, 197, 0.1, [&]()->void {if (SOUND->sound) SOUND->sound = false; else SOUND->sound = true; });
+		sound_button = new Button(sound_on, sound_on, { WINX / 2 - 150,WINY / 2 }, "", 197, 197, 0.1, [&]()->void { SOUND->sound = !SOUND->sound; 
+		char str[256];
+		sprintf(str, "Changed to : %s\n", SOUND->sound ? "TRUE" : "FALSE");
+		OutputDebugStringA(str); });
 		sound_button->Off();
 
-		music_button = new Button(music_on, music_on, { WINX / 2 + 150,WINY / 2 }, "", 197, 197, 0.1, [&]()->void {if (music) music = false; else music = true; });
+		music_button = new Button(music_on, music_on, { WINX / 2 + 150,WINY / 2 }, "", 197, 197, 0.1, [&]()->void {if (SOUND->music) SOUND->music = false; else SOUND->music = true; });
 		music_button->Off();
 
 		eb_anim = vector<Texture*>
@@ -82,7 +85,7 @@ void Title::Update()
 		sound_button->bg2 = sound_on;
 	}
 
-	if (!music)
+	if (!SOUND->music)
 	{
 		Back_Ground_music->Stop();
 		music_button->bg = music_mute;

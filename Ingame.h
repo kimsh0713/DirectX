@@ -99,6 +99,12 @@ public:
 	// PAUSE
 	Button* continue_button;
 	Button* main_button;
+	Button* sound_button;
+	Button* music_button;
+	Texture* Ing_sound_on;
+	Texture* Ing_sound_mute;
+	Texture* Ing_music_on;
+	Texture* Ing_music_mute;
 
 	// Number
 	Texture * zero;
@@ -113,12 +119,16 @@ public:
 	Texture * nine;
 	Texture * comma;
 
+	bool isSound = true;
+
 	float per;
 	bool start = false;
 
 	int type;
 	int enemy_count = 3;
 	bool render = false;
+
+	Obj* shark;
 
 	static bool GameStart;
 	static bool GameOver;

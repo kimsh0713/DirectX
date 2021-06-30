@@ -17,7 +17,7 @@ Ingame::Ingame(int type)
 void Ingame::Init()
 {
 	// 마우스 추가
-	OBJ->Add(new Mouse, "Mouse");
+
 	during = TIME->Create(0.01);
 	during->Start();
 	switch (type)
@@ -41,6 +41,7 @@ void Ingame::Init()
 		OBJ->Add(new Enemy(3), "Enemy1")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
 		OBJ->Add(new Enemy(4), "Enemy2")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
 		OBJ->Add(new Enemy(5), "Enemy3")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		shark = OBJ->Find("Boss");
 		enemy_count = 3;
 		GameOver = false;
 		break;
@@ -49,7 +50,9 @@ void Ingame::Init()
 		Ingame::stage = 3;
 		Player::coloring_per = 0;
 		OBJ->Add(new Enemy(12), "Boss")->pos = CENTER;
-		enemy_count = 0;
+		OBJ->Add(new Enemy(10), "Enemy1")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(11), "Enemy2")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		enemy_count = 2;
 		GameOver = false;
 		break;
 	}
@@ -78,6 +81,18 @@ void Ingame::Init()
 	main_button = new Button(IMG->Add("main button"), IMG->Add("main button_cson"), { WINX / 2 - 90, WINY / 2 + 162 }, "", 114, 114, 0.19, [&]()->void {Ingame::GamePause = false; SCENE->Set("title"); Reset(); });
 	main_button->Off();
 
+	Ing_sound_on = IMG->Add("sound button");
+	Ing_sound_mute = IMG->Add("sound button_mute");
+
+	Ing_music_on = IMG->Add("music button");
+	Ing_music_mute = IMG->Add("music button_mute");
+
+	sound_button = new Button(Ing_sound_on, Ing_sound_on, { WINX / 2 - 150,WINY / 2 - 50 }, "", 197, 197, 0.1, [&]()->void { SOUND->sound = !SOUND->sound; });
+	sound_button->Off();
+
+	music_button = new Button(Ing_music_on, Ing_music_on, { WINX / 2 + 150,WINY / 2 - 50 }, "", 197, 197, 0.1, [&]()->void {if (SOUND->music) SOUND->music = false; else SOUND->music = true; });
+	music_button->Off();
+
 	// GAME OVER
 	game_over = IMG->Add("blind");
 	gov_box = IMG->Add("gov_box");
@@ -96,7 +111,7 @@ void Ingame::Init()
 
 	OBJ->Add(new Mouse, "Mouse");
 
-	timer = 60;
+	timer = 90;
 	playtime = TIME->Create(timer);
 
 	boss = OBJ->Find("Boss");
@@ -135,13 +150,31 @@ void Ingame::Init()
 
 void Ingame::Update()
 {
-	if (INPUT->Down('A'))
+	if (OBJ->Find("Mouse") == nullptr)
+	{
+		OBJ->Add(new Mouse, "Mouse");
+	}
+	if (!SOUND->sound)
+	{
+		sound_button->bg = Ing_sound_mute;
+		sound_button->bg2 = Ing_sound_mute;
+	}
+	else
+	{
+		sound_button->bg = Ing_sound_on;
+		sound_button->bg2 = Ing_sound_on;
+	}
+	if (!SOUND->music)
 	{
 		Back_Ground_music->Stop();
+		music_button->bg = Ing_music_mute;
+		music_button->bg2 = Ing_music_mute;
 	}
-	if (INPUT->Down('Q'))
+	else
 	{
 		Back_Ground_music->Play(1);
+		music_button->bg = Ing_music_on;
+		music_button->bg2 = Ing_music_on;
 	}
 
 	per = Player::coloring_per * 10;
@@ -177,6 +210,7 @@ void Ingame::Update()
 			Y -= 4;
 			sc_Y -= 4;
 			Ui_pause->pos.y -= 4;
+			Ui_pause->b_pos.y -= 4;
 		}
 	}
 	else
@@ -186,17 +220,23 @@ void Ingame::Update()
 			Y += 4;
 			sc_Y += 4;
 			Ui_pause->pos.y += 4;
+			Ui_pause->b_pos.y += 4;
 		}
 	}
 
 	// 게임 클리어 퍼센트
 	if (per >= 800)
 	{
-		GameClear = true;
-		boss->flag = true;
-		for (int i = 0; i < enemy_count; i++)
-			enemy[i]->flag = true;
-		playtime->flag = false;
+		if (type <= 2)
+		{
+			GameClear = true;
+			boss->flag = true;
+			for (int i = 0; i < enemy_count; i++)
+				enemy[i]->flag = true;
+			playtime->flag = false;
+		}
+		else
+			SCENE->Set("clear");
 		//switch (type)
 		//{
 		//case 1:
@@ -488,10 +528,21 @@ void Ingame::Update()
 	{
 		continue_button->On();
 		main_button->On();
+		sound_button->On();
+		music_button->On();
 	}
 	else
 	{
 		win_pause->Off();
+		continue_button->Off();
+		main_button->Off();
+		sound_button->Off();
+		music_button->Off();
+	}
+	if (playtime->flag == true)
+	{
+		if (playtime->cur <= 0)
+			GameOver = true;
 	}
 
 	if (Ingame::GameOver || Ingame::GameClear || Ingame::GamePause)

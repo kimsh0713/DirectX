@@ -29,7 +29,7 @@ void Timer::Update()
 	if (flag)
 	{
 		cur -= DT;
-		if (cur <= 0)
+		if (cur <= -0.56)
 		{
 			cur = set;
 			flag = false;

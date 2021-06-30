@@ -59,7 +59,7 @@ Sound* SoundMgr::Find(const string& key)
 void SoundMgr::Play(Sound* p, bool loop)
 {
 	if (p)
-		if (sound)
+		if (music)
 			p->p->Play(0, loop);
 }
 

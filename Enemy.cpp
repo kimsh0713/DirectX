@@ -8,19 +8,19 @@ Enemy::Enemy(int type)
 
 void Enemy::Flash()
 {
-	dir = RANDOM->Vec2(pos);
+	//dir = RANDOM->Vec2(pos);
 
-	fxs.emplace_back(new Effect(img, pos, 0, 4));
+	//fxs.emplace_back(new Effect(img, pos, 0, 4));
 
-	pos += dir * 50;
+	//pos += dir * 50;
 }
 
 void Enemy::Rush()
 {
-	during->Start();
-	char str[256];
-	sprintf(str, "enemy%d_red", type);
-	img = IMG->Add(str);
+	//during->Start();
+	//char str[256];
+	//sprintf(str, "enemy%d_red", type);
+	//img = IMG->Add(str);
 }
 
 void Enemy::Shot(int shots)
@@ -41,6 +41,7 @@ void Enemy::Init()
 	size = { 1,1 };
 	rot = 0;
 	spin_force = 0;
+	front = 1;
 	main_col = new Col(this, EATK);
 
 	switch (type)
@@ -76,6 +77,18 @@ void Enemy::Init()
 		speed = speeds[2];
 		break;
 	case 8:
+		size = sizes[7];
+		speed = speeds[4];
+		break;
+	case 9:
+		size = sizes[7];
+		speed = speeds[2];
+		break;
+	case 10:
+		size = sizes[7];
+		speed = speeds[2];
+		break;
+	case 11:
 		size = sizes[7];
 		speed = speeds[2];
 		break;
@@ -135,12 +148,16 @@ void Enemy::Update()
 		}
 		break;
 	case 8:
+		range = 70;
+		break;
+	case 9:
 		range = 110;
-		if (timer->IsStop())
-		{
-			//Shot(36);
-			timer->Start();
-		}
+		break;
+	case 10:
+		range = 30;
+		break;
+	case 11:
+		range = 30;
 		break;
 	case 12:
 		range = 110;
@@ -167,9 +184,16 @@ void Enemy::Update()
 	}
 
 	if (Player::cell[c.x][c.y] == 3)
-		if (type < 7)
+		if (type < 12)
 			flag = true;
 
+	V2 nextPos = pos + dir;
+	rot = atan2(nextPos.y - pos.y, nextPos.x - pos.x);
+
+	if (rot > 0)
+		front = -1;
+	else
+		front = 1;
 }
 
 void Enemy::Render()
@@ -178,7 +202,15 @@ void Enemy::Render()
 	//rot += spin_force;
 	//if (rot >= 360)
 	//	rot = 0;
-	img->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(rot), 0.39);
+	switch (type)
+	{
+	case 8:
+		img->Render(pos, { 0,0,0,0 }, { 1,front }, D3DXToRadian(-90), 0.39);
+		break;
+	default:
+		img->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(90) + rot, 0.39);
+		break;
+	}
 }
 
 void Enemy::Release()

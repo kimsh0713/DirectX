@@ -13,6 +13,8 @@ public:
     V2 size;
     V2 dir;
 
+    float front;
+
     float cool;
     float rot;
     int type;

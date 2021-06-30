@@ -18,6 +18,7 @@ public:
 	~SoundMgr();
 
 	bool sound = true;
+	bool music = true;
 
 	Sound* Add(const string& key, const wstring& path);
 	Sound* Find(const string& key);

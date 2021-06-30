@@ -1,7 +1,7 @@
 #include "DXUT.h"
 #include "Button.h"
 
-Button::Button(Texture* bg,Texture* bg2, V2 pos, const string& text, float w, float h, float depth, function<void()> func)
+Button::Button(Texture* bg, Texture* bg2, V2 pos, const string& text, float w, float h, float depth, function<void()> func)
 	:bg(bg), bg2(bg2), text(text), func(func), depth(depth), isOn(true)
 {
 	this->pos = pos;
@@ -36,6 +36,7 @@ void Button::Init()
 
 void Button::Update()
 {
+	main_col->flag = isOn;
 	main_col->Set(b_pos, W, H);
 	if (!isOn)
 	{
@@ -43,13 +44,16 @@ void Button::Update()
 		g = 255;
 		b = 255;
 	}
+	//char str[256];
+	//sprintf(str, "%s\n", SOUND->sound ? "TRUE" : "FALSE");
+	//OutputDebugStringA(str);
 }
 
 void Button::Render()
 {
 	if (isOn)
 	{
-		if(!ismouse)
+		if (!ismouse)
 			bg->Render(pos, RT_ZERO, { 1,1 }, 0, depth, D3DCOLOR_RGBA(r, g, b, 255));
 		else
 			bg2->Render(pos, RT_ZERO, { 1,1 }, 0, depth, D3DCOLOR_RGBA(r, g, b, 255));
@@ -86,6 +90,7 @@ void Button::Stay(Col* p)
 			if (INPUT->Down(VK_LBUTTON))
 			{
 				ismouse = false;
+				OutputDebugStringA("CLICKED!\n");
 				func();
 				if (SOUND->sound)
 				{
