@@ -17,8 +17,21 @@ public:
 
     float cool;
     float rot;
+    float t = 0;
+    float t2 = 0;
+    float t3 = 0;
     int type;
+    //int enemytype = 1;
     int spin_force;
+
+    vector<Texture*> turtle;
+
+    vector<int> E_type = vector<int>
+    {
+        1,
+        1,
+        1,
+    };
 
     vector<V2> sizes = vector<V2>
     {
@@ -30,15 +43,6 @@ public:
         {12,6},
         {17,16},
         {7,7},
-    };
-
-    vector<float> speeds = vector<float>
-    {
-        0.5f,
-        0.75f,
-        1,
-        1.25f,
-        1.5f,
     };
 
     void Flash();

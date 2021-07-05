@@ -33,7 +33,7 @@ static bool WIN = true;
 static float time_scale = 1;
 static int score = 0;
 
-const bool ColDraw = true;
+const bool ColDraw = false;
 
 enum Tag
 {
@@ -69,7 +69,6 @@ enum Tag
 #include "InputMgr.h"
 
 //GAME
-#include "Item.h"
 #include "Effect.h"
 #include "ScrollMap.h"
 #include "Bullet.h"

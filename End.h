@@ -7,6 +7,9 @@ public:
     End(int type);
 
     Texture* bg;
+    Texture* game;
+    Texture* clear;
+    Texture* over;
     ScrollMap* map;
 
     Button* restart;

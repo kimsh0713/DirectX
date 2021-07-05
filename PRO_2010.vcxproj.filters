@@ -185,9 +185,6 @@
     <ClCompile Include="InputMgr.cpp">
       <Filter>Mgr\INPUT</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Game\obj</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Game\obj</Filter>
     </ClCompile>
@@ -274,9 +271,6 @@
     </ClInclude>
     <ClInclude Include="InputMgr.h">
       <Filter>Mgr\INPUT</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Game\obj</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Game\obj</Filter>

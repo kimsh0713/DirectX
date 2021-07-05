@@ -63,6 +63,7 @@ void Ingame::Init()
 	Ui_gst_tank = IMG->Add("gst_tank");
 	Ui_gst_dive = IMG->Add("gst_dive");
 	blind = IMG->Add("blind");
+	dive_blind = IMG->Add("gst_blackscreen");
 	Ui_base = IMG->Add("ui_ingame_base");
 	Ui_pause = new Button(IMG->Add("ui_ingame_pause button"), IMG->Add("ui_ingame_pause button_muscur"), { 80 , Y - 10 }, "", 60, 60, 0.21, [&]()->void { if (start) { win_pause->On(); GamePause = true; } });
 	Ui_score = IMG->Add("ui_ingame_score");
@@ -78,7 +79,7 @@ void Ingame::Init()
 	win_pause = new Window(IMG->Add("pause screen"), CENTER, 900, 900, { 800, 800 });
 	continue_button = new Button(IMG->Add("continue button"), IMG->Add("continue button_cson"), { WINX / 2 + 100, WINY / 2 + 162 }, "", 114, 114, 0.19, [&]()->void {Ingame::GamePause = false; });
 	continue_button->Off();
-	main_button = new Button(IMG->Add("main button"), IMG->Add("main button_cson"), { WINX / 2 - 90, WINY / 2 + 162 }, "", 114, 114, 0.19, [&]()->void {Ingame::GamePause = false; SCENE->Set("title"); Reset(); });
+	main_button = new Button(IMG->Add("main button"), IMG->Add("main button_cson"), { WINX / 2 - 90, WINY / 2 + 162 }, "", 114, 114, 0.19, [&]()->void {Ingame::GamePause = false; SCENE->Set("title"); Reset(); Player::Score = 0; });
 	main_button->Off();
 
 	Ing_sound_on = IMG->Add("sound button");
@@ -111,7 +112,7 @@ void Ingame::Init()
 
 	OBJ->Add(new Mouse, "Mouse");
 
-	timer = 90;
+	timer = 75;
 	playtime = TIME->Create(timer);
 
 	boss = OBJ->Find("Boss");
@@ -134,13 +135,13 @@ void Ingame::Init()
 	//playtime->flag = true;
 	// OVER_BUTTON
 	gov_agbtn = new Button(IMG->Add("gov_agbtn"), IMG->Add("gov_agbtn cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gov_agbtn->Off();  if (type == 1) { SCENE->Set("stage1"); } else if (type == 2) { SCENE->Set("stage2"); } else if (type == 3) { SCENE->Set("stage3"); }player->hp = 3; GameOver = false; GameClear = false; Reset(); });
-	gov_backbtn = new Button(IMG->Add("gov_backbtn"), IMG->Add("gcl_backbtn_cson"), { WINX / 2 - 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gov_backbtn->Off(); GameOver = false; GameClear = false;  SCENE->Set("title"); Reset(); });
+	gov_backbtn = new Button(IMG->Add("gov_backbtn"), IMG->Add("gcl_backbtn_cson"), { WINX / 2 - 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gov_backbtn->Off(); GameOver = false; GameClear = false;  SCENE->Set("title"); Reset(); Player::Score = 0; });
 	gov_agbtn->Off();
 	gov_backbtn->Off();
 
 	// CLEAR_BUTTON
-	gcl_nextbtn = new Button(IMG->Add("gcl_nextbtn"), IMG->Add("gcl_nextbtn_cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_nextbtn->Off(); if (type == 1) { SCENE->Set("stage2"); } else if (type == 2) { SCENE->Set("stage3"); } else if (type == 3) {}player->hp = 3; GameClear = false; GameOver = false; Reset(); });
-	gcl_backbtn = new Button(IMG->Add("gcl_backbtn"), IMG->Add("gcl_backbtn_cson"), { WINX / 2 - 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_backbtn->Off(); GameClear = false; GameOver = false; SCENE->Set("title"); Reset(); });
+	gcl_nextbtn = new Button(IMG->Add("gcl_nextbtn"), IMG->Add("gcl_nextbtn_cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_nextbtn->Off(); if (type == 1) { SCENE->Set("stage2"); } else if (type == 2) { SCENE->Set("stage3"); } else if (type == 3) {}player->hp = 3; GameClear = false; GameOver = false; });
+	gcl_backbtn = new Button(IMG->Add("gcl_backbtn"), IMG->Add("gcl_backbtn_cson"), { WINX / 2 - 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_backbtn->Off(); GameClear = false; GameOver = false; SCENE->Set("title"); Reset(); Player::Score = 0; });
 	gcl_nextbtn->Off();
 	gcl_backbtn->Off();
 
@@ -236,7 +237,10 @@ void Ingame::Update()
 			playtime->flag = false;
 		}
 		else
+		{
 			SCENE->Set("clear");
+			Reset();
+		}
 		//switch (type)
 		//{
 		//case 1:
@@ -554,7 +558,7 @@ void Ingame::Render()
 	// GAMESTART
 	if (!Ingame::GameStart)
 	{
-		blind->Render({ WINX / 2, blind_y }, RT_ZERO, { 1,1 }, 0, 0.15);
+		dive_blind->Render({ WINX / 2, blind_y }, RT_ZERO, { 1,1 }, 0, 0.15);
 		Ui_gst_tank->Render({ WINX / 2, gst_y }, RT_ZERO, { 1,1 }, 0, 0.09, D3DCOLOR_RGBA(255, 255, 255, alpha));
 
 		if (gst_y >= WINY / 2 + 20)

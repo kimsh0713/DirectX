@@ -8,6 +8,7 @@ public:
 
 	// Start Ui
 	Texture* blind;
+	Texture* dive_blind;
 	Texture* Ui_gst_tank;
 	Texture* Ui_gst_dive;
 	// UI

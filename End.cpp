@@ -12,10 +12,12 @@ void End::Init()
 
 	//map = new ScrollMap(IMG->Add("Bg"));
 
-	bg = IMG->Add("BG2");
+	bg = IMG->Add("title_background");
+	game = IMG->Add("gov_game");
+	clear = IMG->Add("gcl_clear");
+	over = IMG->Add("gov_over");
 
-	restart = new Button(IMG->Add(""), IMG->Add(""), { CENTER.x - 300,CENTER.y + 300 }, "RESTART", 440, 200, 1, [&]()->void { SCENE->Set("stage1");  IMG->ReLoad("BG5"); IMG->ReLoad("BG3");IMG->ReLoad("BG1"); });
-	title = new Button(IMG->Add(""), IMG->Add(""), { CENTER.x + 300,CENTER.y + 300 }, "TITLE", 440, 200, 1, [&]()->void { SCENE->Set("title"); IMG->ReLoad("BG1"); IMG->ReLoad("BG3"); IMG->ReLoad("BG5"); });
+	title = new Button(IMG->Add("gov_backbtn"), IMG->Add("gcl_backbtn_cson"), { CENTER.x ,CENTER.y + 200 }, "", 348, 176, 1, [&]()->void { SCENE->Set("title"); IMG->ReLoad("BG1"); IMG->ReLoad("BG3"); IMG->ReLoad("BG5"); Player::Score = 0; });
 }
 
 void End::Update()
@@ -31,13 +33,14 @@ void End::Render()
 	//if (map)
 	//	map->Render();
 	bg->Render();
+	game->Render({ WINX / 2 - 320, WINY / 2 - 80 });
 	switch (type)
 	{
 	case 1:
-		IMG->Write("Clear!", V2{ CENTER.x,CENTER.y + 50 }, 80, D3DCOLOR_RGBA(100, 100, 255, 255));
+		clear->Render({ WINX / 2 + 320, WINY / 2 - 80 });
 		break;
 	case 2:
-		IMG->Write("I wish you success next time...");
+		over->Render({ WINX / 2 + 320, WINY / 2 - 80 });
 		break;
 	}
 }

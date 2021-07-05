@@ -14,3 +14,8 @@ V2 RandomMgr::Vec2(V2 origin)
 	D3DXVec2Normalize(&dir, &dir);
 	return dir;
 }
+
+void RandomMgr::Reflex(V2* dir_out, V2 side)
+{
+	(*dir_out) = (*dir_out) + 2 * side * D3DXVec2Dot(&-(*dir_out), &side);
+}

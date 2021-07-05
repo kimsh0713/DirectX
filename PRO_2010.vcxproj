@@ -394,7 +394,6 @@
     <ClCompile Include="HotKey.cpp" />
     <ClCompile Include="Ingame.cpp" />
     <ClCompile Include="InputMgr.cpp" />
-    <ClCompile Include="Item.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RandomMgr.cpp" />
@@ -419,7 +418,6 @@
     <ClInclude Include="ImgMgr.h" />
     <ClInclude Include="Ingame.h" />
     <ClInclude Include="InputMgr.h" />
-    <ClInclude Include="Item.h" />
     <ClInclude Include="MainGame.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="Obj.h" />

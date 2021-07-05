@@ -160,24 +160,6 @@ void Player::Enter(Col* p)
 			}
 		}
 		break;
-	case ITEM:
-		switch (((Item*)p->owner)->type)
-		{
-		case 1:
-			speed = 4;
-			break;
-		case 2:
-			def++;
-			break;
-		case 3:
-			NoDamage();
-			break;
-		case 4:
-			HOT->F3();
-			break;
-		}
-		p->owner->flag = true;
-		break;
 	}
 }
 

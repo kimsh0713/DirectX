@@ -34,7 +34,7 @@ void Enemy::Init()
 {
 	dir = RANDOM->Vec2(pos);
 	char str[256];
-	sprintf(str, "enemy%d", type);		//사진 enemy 숫자		7,8은 보스
+	sprintf(str, "enemy%d", type);
 	img = IMG->Add(str);
 	cool = 0;
 	speed = 0;
@@ -49,52 +49,44 @@ void Enemy::Init()
 	case 1:
 		cool = 5;
 		size = sizes[4];
-		speed = speeds[2];
+		speed = 0.2;
 		break;
 	case 2:
 		size = sizes[2];
-		speed = speeds[1];
+		speed = 0.75;
 		break;
 	case 3:
 		size = sizes[4];
-		speed = speeds[3];
+		speed = 1.25;
 		break;
 	case 4:
 		cool = 3;
 		size = sizes[5];
-		speed = speeds[3];
+		speed = 2;
 		break;
 	case 5:
 		size = sizes[4];
-		speed = speeds[4];
-		break;
-	case 6:
-		size = sizes[2];
-		speed = speeds[0];
+		speed = 0.2;
 		break;
 	case 7:
 		size = sizes[6];
-		speed = speeds[2];
+		speed = 1.6;
 		break;
 	case 8:
 		size = sizes[7];
-		speed = speeds[4];
-		break;
-	case 9:
-		size = sizes[7];
-		speed = speeds[2];
+		speed = 2.25;
 		break;
 	case 10:
 		size = sizes[7];
-		speed = speeds[2];
+		speed = 1.25;
 		break;
 	case 11:
 		size = sizes[7];
-		speed = speeds[2];
+		speed = 2;
 		break;
 	case 12:
 		size = sizes[7];
-		speed = speeds[3];
+		speed = 0.75;
 		break;
 	}
 
@@ -117,49 +109,87 @@ void Enemy::Update()
 
 	int range = 7;
 
+	char str[256];
+	if (Ingame::GameStart)
+	{
+		t += DT;
+		t2 += DT;
+		t3 += DT;
+	}
+	if (t > 0.3)
+	{
+		if (E_type[0] < 4)
+			E_type[0]++;
+		else
+			E_type[0] = 1;
+		t = 0;
+	}
+	if (t2 > 0.7)
+	{
+		if (E_type[1] < 4)
+			E_type[1]++;
+		else
+			E_type[1] = 1;
+		t2 = 0;
+	}
+	if (t3 > 0.2)
+	{
+		if (E_type[2] < 4)
+			E_type[2]++;
+		else
+			E_type[2] = 1;
+		t3 = 0;
+	}
 	switch (type)
 	{
 	case 1:
-	case 6:
 		range = 30;
-		//if (timer->IsStop())
-		//{
-		//	Flash();
-		//	timer->Start();
-		//}
+		sprintf(str, "거북이%d", E_type[0]);
+		img = IMG->Add(str);
+		break;
+	case 2:
+		range = 30;
+		sprintf(str, "조개%d", E_type[0]);
+		img = IMG->Add(str);
+		break;
+	case 3:
+		range = 30;
+		sprintf(str, "나비고기%d", E_type[0]);
+		img = IMG->Add(str);
+		break;
+	case 4:
+		range = 30;
+		sprintf(str, "청새치%d", E_type[0]);
+		img = IMG->Add(str);
+		break;
+	case 5:
+		range = 30;
+		sprintf(str, "해파리%d", E_type[1]);
+		img = IMG->Add(str);
 		break;
 	case 7:
+		sprintf(str, "boss_오징어%d", E_type[0]);
+		img = IMG->Add(str);
 		range = 110;
-		if (timer->IsStop())
-		{
-			//Rush();
-			timer->Start();
-		}
-		if (during->IsStop())
-		{
-			char str[256];
-			sprintf(str, "enemy%d", type);
-			img = IMG->Add(str);
-		}
-		else
-		{
-			pos += dir * 10;
-			fxs.emplace_back(new Effect(img, pos, rot, 3));
-		}
 		break;
 	case 8:
+		sprintf(str, "boss_상어등%d", E_type[2]);
+		img = IMG->Add(str);
 		range = 70;
 		break;
-	case 9:
-		range = 110;
-		break;
 	case 10:
-		range = 30;
+		sprintf(str, "덤보문어%d", E_type[2]);
+		img = IMG->Add(str);
+		range = 50;
 		break;
 	case 11:
-		range = 30;
+		sprintf(str, "산갈치%d", E_type[2]);
+		img = IMG->Add(str);
+		range = 50;
 		break;
 	case 12:
+		sprintf(str, "boss_초롱아귀%d", E_type[2]);
+		img = IMG->Add(str);
 		range = 110;
 		break;
 	}
@@ -190,7 +220,7 @@ void Enemy::Update()
 	V2 nextPos = pos + dir;
 	rot = atan2(nextPos.y - pos.y, nextPos.x - pos.x);
 
-	if (rot > 0)
+	if (dir.x > 0)
 		front = -1;
 	else
 		front = 1;
@@ -204,11 +234,17 @@ void Enemy::Render()
 	//	rot = 0;
 	switch (type)
 	{
+	case 7:
+		img->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(90) + rot, 0.39);
+		break;
 	case 8:
 		img->Render(pos, { 0,0,0,0 }, { 1,front }, D3DXToRadian(-90), 0.39);
 		break;
-	default:
+	case 12:
 		img->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(90) + rot, 0.39);
+		break;
+	default:
+		img->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(90) + rot, 0.4);
 		break;
 	}
 }
