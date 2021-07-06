@@ -8,12 +8,17 @@ public:
 
     vector<Effect*> fxs;
     Texture* img;
+    Texture* img_back;
     Timer* timer;
-    Timer* during;
+    float during = 0;
+    int back_alpha = 0;
+    Timer* dummy = 0;
     V2 size;
     V2 dir;
 
     float front;
+
+    int motion = 0;
 
     float cool;
     float rot;
@@ -44,10 +49,6 @@ public:
         {17,16},
         {7,7},
     };
-
-    void Flash();
-    void Rush();
-    void Shot(int shots);
 
     // Obj을(를) 통해 상속됨
     virtual void Init() override;

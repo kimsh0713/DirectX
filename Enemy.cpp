@@ -6,36 +6,13 @@ Enemy::Enemy(int type)
 {
 }
 
-void Enemy::Flash()
-{
-	//dir = RANDOM->Vec2(pos);
-
-	//fxs.emplace_back(new Effect(img, pos, 0, 4));
-
-	//pos += dir * 50;
-}
-
-void Enemy::Rush()
-{
-	//during->Start();
-	//char str[256];
-	//sprintf(str, "enemy%d_red", type);
-	//img = IMG->Add(str);
-}
-
-void Enemy::Shot(int shots)
-{
-	int angle = 360 / shots;
-	for (int i = 0; i < 360; i += angle)
-		OBJ->Add(new Bullet(1, { cos(D3DXToRadian(i)), sin(D3DXToRadian(i)) }), "Bullet")->pos = pos;
-}
-
 void Enemy::Init()
 {
 	dir = RANDOM->Vec2(pos);
 	char str[256];
 	sprintf(str, "enemy%d", type);
 	img = IMG->Add(str);
+	img_back = IMG->Add("등장존");
 	cool = 0;
 	speed = 0;
 	size = { 1,1 };
@@ -92,15 +69,18 @@ void Enemy::Init()
 
 	timer = TIME->Create(cool);
 	timer->Start();
-	during = TIME->Create(3);
+	dummy = TIME->Create(2);
 }
 
 void Enemy::Update()
 {
 	if (Ingame::GameStart)
 	{
-		for (int i = 0; i < speed; i++)
-			pos += dir;
+		if (Ingame::GameOver || Ingame::GameClear || !Ingame::GamePause)
+		{
+			for (int i = 0; i < speed; i++)
+				pos += dir;
+		}
 	}
 
 	spin_force += DT * 100;
@@ -115,8 +95,9 @@ void Enemy::Update()
 		t += DT;
 		t2 += DT;
 		t3 += DT;
+		during += DT;
 	}
-	if (t > 0.3)
+	if (t > 0.2)
 	{
 		if (E_type[0] < 4)
 			E_type[0]++;
@@ -134,7 +115,7 @@ void Enemy::Update()
 	}
 	if (t3 > 0.2)
 	{
-		if (E_type[2] < 4)
+		if (E_type[2] < 2)
 			E_type[2]++;
 		else
 			E_type[2] = 1;
@@ -173,17 +154,42 @@ void Enemy::Update()
 		range = 110;
 		break;
 	case 8:
-		sprintf(str, "boss_상어등%d", E_type[2]);
-		img = IMG->Add(str);
+		if (during >= 5)
+		{
+			switch (motion)
+			{
+			case 0:
+				img = IMG->Add("등장경고");
+				if (back_alpha < 245)
+					back_alpha += 10;
+				else
+					motion++;
+				break;
+			case 1:
+				if (back_alpha >= 10)
+					back_alpha -= 10;
+				else
+					motion++;
+				break;
+			case 2:
+				img = IMG->Add("boss_상어1");
+				break;
+			}
+		}
+		else
+		{
+			sprintf(str, "boss_상어등%d", E_type[0]);
+			img = IMG->Add(str);
+		}
 		range = 70;
 		break;
 	case 10:
-		sprintf(str, "덤보문어%d", E_type[2]);
+		sprintf(str, "덤보문어%d", E_type[0]);
 		img = IMG->Add(str);
 		range = 50;
 		break;
 	case 11:
-		sprintf(str, "산갈치%d", E_type[2]);
+		sprintf(str, "산갈치%d", E_type[0]);
 		img = IMG->Add(str);
 		range = 50;
 		break;
@@ -239,6 +245,7 @@ void Enemy::Render()
 		break;
 	case 8:
 		img->Render(pos, { 0,0,0,0 }, { 1,front }, D3DXToRadian(-90), 0.39);
+		img_back->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(-90), 0.4, D3DCOLOR_RGBA(255, 255, 255, back_alpha));
 		break;
 	case 12:
 		img->Render(pos, { 0,0,0,0 }, { 1,1 }, D3DXToRadian(90) + rot, 0.39);

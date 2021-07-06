@@ -77,7 +77,7 @@ void Ingame::Init()
 
 	// PAUSE
 	win_pause = new Window(IMG->Add("pause screen"), CENTER, 900, 900, { 800, 800 });
-	continue_button = new Button(IMG->Add("continue button"), IMG->Add("continue button_cson"), { WINX / 2 + 100, WINY / 2 + 162 }, "", 114, 114, 0.19, [&]()->void {Ingame::GamePause = false; });
+	continue_button = new Button(IMG->Add("continue button"), IMG->Add("continue button_cson"), { WINX / 2 + 100, WINY / 2 + 162 }, "", 114, 114, 0.19, [&]()->void {Ingame::GamePause = false; playtime->flag = true; });
 	continue_button->Off();
 	main_button = new Button(IMG->Add("main button"), IMG->Add("main button_cson"), { WINX / 2 - 90, WINY / 2 + 162 }, "", 114, 114, 0.19, [&]()->void {Ingame::GamePause = false; SCENE->Set("title"); Reset(); Player::Score = 0; });
 	main_button->Off();
@@ -88,10 +88,10 @@ void Ingame::Init()
 	Ing_music_on = IMG->Add("music button");
 	Ing_music_mute = IMG->Add("music button_mute");
 
-	sound_button = new Button(Ing_sound_on, Ing_sound_on, { WINX / 2 - 150,WINY / 2 - 50 }, "", 197, 197, 0.1, [&]()->void { SOUND->sound = !SOUND->sound; });
+	sound_button = new Button(Ing_sound_on, Ing_sound_on, { WINX / 2 - 145,WINY / 2 - 50 }, "", 197, 197, 0.1, [&]()->void { SOUND->sound = !SOUND->sound; });
 	sound_button->Off();
 
-	music_button = new Button(Ing_music_on, Ing_music_on, { WINX / 2 + 150,WINY / 2 - 50 }, "", 197, 197, 0.1, [&]()->void {if (SOUND->music) SOUND->music = false; else SOUND->music = true; });
+	music_button = new Button(Ing_music_on, Ing_music_on, { WINX / 2 + 137,WINY / 2 - 50 }, "", 197, 197, 0.1, [&]()->void {if (SOUND->music) SOUND->music = false; else SOUND->music = true; });
 	music_button->Off();
 
 	// GAME OVER
@@ -546,7 +546,12 @@ void Ingame::Update()
 	if (playtime->flag == true)
 	{
 		if (playtime->cur <= 0)
+		{
 			GameOver = true;
+			for (int i = 0; i < enemy_count; i++)
+				enemy[i]->flag = true;
+			boss->flag = true;
+		}
 	}
 
 	if (Ingame::GameOver || Ingame::GameClear || Ingame::GamePause)
@@ -758,7 +763,6 @@ void Ingame::Reset()
 	blind_y = 450;
 	alpha = 255;
 	Ingame::GameStart = false;
-	Player::Score = 0;
 }
 
 int Ingame::Nums(int num, int index) //num에 스코어를 넣고, index 0 = 1의자리 index 1 = 2의 자리
