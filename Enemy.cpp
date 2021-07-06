@@ -113,9 +113,9 @@ void Enemy::Update()
 			E_type[1] = 1;
 		t2 = 0;
 	}
-	if (t3 > 0.2)
+	if (t3 > 0.3)
 	{
-		if (E_type[2] < 2)
+		if (E_type[2] < 3)
 			E_type[2]++;
 		else
 			E_type[2] = 1;
@@ -154,7 +154,7 @@ void Enemy::Update()
 		range = 110;
 		break;
 	case 8:
-		if (during >= 5)
+		if (during >= 2)
 		{
 			switch (motion)
 			{
@@ -172,7 +172,49 @@ void Enemy::Update()
 					motion++;
 				break;
 			case 2:
+				img = IMG->Add("등장경고");
+				if (back_alpha < 245)
+					back_alpha += 10;
+				else
+					motion++;
+				break;
+			case 3:
+				if (back_alpha >= 10)
+					back_alpha -= 10;
+				else
+					motion++;
+				break;
+			case 4:
 				img = IMG->Add("boss_상어1");
+				t4 += DT;
+				if (t4 > 0.15)
+				{
+					motion++;
+					t4 = 0;
+				}
+				break;
+			case 5:
+				img = IMG->Add("boss_상어2");
+				t4 += DT;
+				if (t4 > 0.15)
+				{
+					motion++;
+					t4 = 0;
+				}
+				break;
+			case 6:
+				img = IMG->Add("boss_상어3");
+				t4 += DT;
+				if (t4 > 0.15)
+				{
+					motion++;
+					t4 = 0;
+				}
+				break;
+			case 7:
+				during = 0;
+				motion = 0;
+				t4 = 0;
 				break;
 			}
 		}

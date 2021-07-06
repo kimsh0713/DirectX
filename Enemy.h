@@ -25,6 +25,7 @@ public:
     float t = 0;
     float t2 = 0;
     float t3 = 0;
+    float t4 = 0;
     int type;
     //int enemytype = 1;
     int spin_force;
@@ -35,7 +36,7 @@ public:
     {
         1,
         1,
-        1,
+        0,
     };
 
     vector<V2> sizes = vector<V2>

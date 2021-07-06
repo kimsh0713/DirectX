@@ -14,7 +14,7 @@ void WaitTitle::Init()
 	Y = 110;
 	Y2 = 860;
 
-	Back_Ground_music = SOUND->Add("BackGround_music", L"Dummy");
+	Back_Ground_music = SOUND->Add("BackGround_music", L"Sea Of Sun");
 	Back_Ground_music->Play(1);
 }
 

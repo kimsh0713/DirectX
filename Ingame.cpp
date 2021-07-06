@@ -17,9 +17,9 @@ Ingame::Ingame(int type)
 void Ingame::Init()
 {
 	// 마우스 추가
+	timer = 75;
+	playtime = TIME->Create(timer);
 
-	during = TIME->Create(0.01);
-	during->Start();
 	switch (type)
 	{
 	case 1:
@@ -112,9 +112,6 @@ void Ingame::Init()
 
 	OBJ->Add(new Mouse, "Mouse");
 
-	timer = 75;
-	playtime = TIME->Create(timer);
-
 	boss = OBJ->Find("Boss");
 	enemy[0] = OBJ->Find("Enemy1");
 	enemy[1] = OBJ->Find("Enemy2");
@@ -140,7 +137,7 @@ void Ingame::Init()
 	gov_backbtn->Off();
 
 	// CLEAR_BUTTON
-	gcl_nextbtn = new Button(IMG->Add("gcl_nextbtn"), IMG->Add("gcl_nextbtn_cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_nextbtn->Off(); if (type == 1) { SCENE->Set("stage2"); } else if (type == 2) { SCENE->Set("stage3"); } else if (type == 3) {}player->hp = 3; GameClear = false; GameOver = false; });
+	gcl_nextbtn = new Button(IMG->Add("gcl_nextbtn"), IMG->Add("gcl_nextbtn_cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_nextbtn->Off(); if (type == 1) { SCENE->Set("stage2"); } else if (type == 2) { SCENE->Set("stage3"); } else if (type == 3) {}player->hp = 3; GameClear = false; GameOver = false; Reset(); });
 	gcl_backbtn = new Button(IMG->Add("gcl_backbtn"), IMG->Add("gcl_backbtn_cson"), { WINX / 2 - 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gcl_backbtn->Off(); GameClear = false; GameOver = false; SCENE->Set("title"); Reset(); Player::Score = 0; });
 	gcl_nextbtn->Off();
 	gcl_backbtn->Off();
@@ -179,8 +176,6 @@ void Ingame::Update()
 	}
 
 	per = Player::coloring_per * 10;
-	if (during->IsStop())
-		render = true;
 
 	if (player->hp <= 0)
 	{
@@ -687,31 +682,28 @@ void Ingame::Render()
 	Ui_stage->Render({ 545,(sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
 	Ui_precent->Render({ WINX / 2 + 35, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
 
-	if (render)
+	switch (player->hp)
 	{
-		switch (player->hp)
-		{
-		case 1:
-			Ui_unabled_life->Render({ WINX / 2 + 250, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			Ui_unabled_life->Render({ WINX / 2 + 180, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			Ui_abled_life->Render({ WINX / 2 + 110, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			break;
-		case 2:
-			Ui_unabled_life->Render({ WINX / 2 + 250, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			Ui_abled_life->Render({ WINX / 2 + 180, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			Ui_abled_life->Render({ WINX / 2 + 110, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			break;
-		case 3:
-			Ui_abled_life->Render({ WINX / 2 + 250, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			Ui_abled_life->Render({ WINX / 2 + 180, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			Ui_abled_life->Render({ WINX / 2 + 110, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			break;
-		default:
-			Ui_abled_life->Render({ WINX / 2 + 250, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			Ui_abled_life->Render({ WINX / 2 + 180, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			Ui_abled_life->Render({ WINX / 2 + 110, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
-			break;
-		}
+	case 1:
+		Ui_unabled_life->Render({ WINX / 2 + 250, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_unabled_life->Render({ WINX / 2 + 180, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 110, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		break;
+	case 2:
+		Ui_unabled_life->Render({ WINX / 2 + 250, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 180, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 110, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		break;
+	case 3:
+		Ui_abled_life->Render({ WINX / 2 + 250, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 180, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 110, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		break;
+	default:
+		Ui_abled_life->Render({ WINX / 2 + 250, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 180, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		Ui_abled_life->Render({ WINX / 2 + 110, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);
+		break;
 	}
 
 	Ui_time->Render({ WINX / 2 + 360, (sc_Y) }, RT_ZERO, { 1,1 }, 0, 0.3);

@@ -76,7 +76,6 @@ public:
 	// TIMER
 	int timer;
 	Timer* playtime;
-	Timer* during;
 
 	// GameStart Ui
 	float gst_y = -100;
@@ -127,7 +126,6 @@ public:
 
 	int type;
 	int enemy_count = 3;
-	bool render = false;
 
 	Obj* shark;
 
