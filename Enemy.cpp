@@ -255,10 +255,24 @@ void Enemy::Update()
 	{
 		for (int x = -range; x <= range; x++)
 		{
-			if (Player::cell[c.x + x][c.y + y] == 2)
-			{
-				dir = RANDOM->Vec2(pos);
-			}
+			if (pos.x + x < L)
+				RANDOM->Reflex(&dir, V2(-1, 0));
+			if (pos.x + x > R)
+				RANDOM->Reflex(&dir, V2(1, 0));
+			if (pos.y + y < T)
+				RANDOM->Reflex(&dir, V2(0, -1));
+			if (pos.y + y > B)
+				RANDOM->Reflex(&dir, V2(0, 1));
+
+			if (Player::cell[int(pos.x + x) + 1][int(pos.y + y)] == 2)
+				RANDOM->Reflex(&dir, V2(1, 0));
+			if (Player::cell[int(pos.x + x) - 1][int(pos.y + y)] == 2)
+				RANDOM->Reflex(&dir, V2(-1, 0));
+			if (Player::cell[int(pos.x + x)][int(pos.y + y) + 1] == 2)
+				RANDOM->Reflex(&dir, V2(0, 1));
+			if (Player::cell[int(pos.x + x)][int(pos.y + y) - 1] == 2)
+				RANDOM->Reflex(&dir, V2(0, -1));
+
 			if (Player::cell[c.x + x][c.y + y] == 1)
 			{
 				Player::isHurt = true;
