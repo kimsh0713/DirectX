@@ -42,6 +42,20 @@ void WaitTitle::Update()
 	}
 	else
 		isDown2 = true;
+	switch (index)
+	{
+	case 0:
+		if (alpha < 240)
+			alpha += 15;
+		else index++;
+		break;
+	case 1:
+		if (alpha > 15)
+			alpha -= 15;
+		else index = 0;
+		break;
+	}
+
 }
 
 void WaitTitle::Render()
@@ -49,7 +63,7 @@ void WaitTitle::Render()
 	bg->CenterRender(CENTER);
 	boy->CenterRender(V2(WINX / 2, Y));
 	title->CenterRender(V2(WINX / 2, WINY / 2 + 150));
-	press->CenterRender(V2(WINX / 2, WINY / 2 + 290));
+	press->CenterRender(V2(WINX / 2, WINY / 2 + 290), 0, { 1,1 }, D3DCOLOR_RGBA(255,255,255,alpha));
 	clock->CenterRender(V2(WINX / 2, Y2));
 }
 

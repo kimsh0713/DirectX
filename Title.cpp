@@ -74,6 +74,10 @@ void Title::Init()
 
 void Title::Update()
 {
+	if (OBJ->Find("Mouse") == nullptr)
+	{
+		OBJ->Add(new Mouse, "Mouse");
+	}
 	if (!SOUND->sound)
 	{
 		sound_button->bg = sound_mute;

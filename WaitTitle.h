@@ -14,6 +14,9 @@ class WaitTitle :
     float Y;
     float Y2;
     float i = 0;
+    int alpha = 0;
+
+    int index = 0;
 
     Sound* Back_Ground_music;
 

@@ -22,6 +22,10 @@ void End::Init()
 
 void End::Update()
 {
+	if (OBJ->Find("Mouse") == nullptr)
+	{
+		OBJ->Add(new Mouse, "Mouse");
+	}
 	if (INPUT->Down('M'))
 	{
 		OBJ->Add(new Mouse, "Mouse");
