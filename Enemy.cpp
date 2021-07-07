@@ -58,7 +58,7 @@ void Enemy::Init()
 		speed = 1.25;
 		break;
 	case 11:
-		size = sizes[7];
+		size = sizes[8];
 		speed = 2;
 		break;
 	case 12:
@@ -154,11 +154,13 @@ void Enemy::Update()
 		range = 110;
 		break;
 	case 8:
+		speed = 0;
 		if (during >= 2)
 		{
 			switch (motion)
 			{
 			case 0:
+				range = 50;
 				img = IMG->Add("등장경고");
 				if (back_alpha < 245)
 					back_alpha += 10;
@@ -185,6 +187,8 @@ void Enemy::Update()
 					motion++;
 				break;
 			case 4:
+				speed = 0;
+				range = 145;
 				img = IMG->Add("boss_상어1");
 				t4 += DT;
 				if (t4 > 0.15)
@@ -212,9 +216,11 @@ void Enemy::Update()
 				}
 				break;
 			case 7:
+				speed = 2.25;
 				during = 0;
 				motion = 0;
 				t4 = 0;
+				range = 50;
 				break;
 			}
 		}
@@ -223,7 +229,6 @@ void Enemy::Update()
 			sprintf(str, "boss_상어등%d", E_type[0]);
 			img = IMG->Add(str);
 		}
-		range = 70;
 		break;
 	case 10:
 		sprintf(str, "덤보문어%d", E_type[0]);
@@ -233,7 +238,7 @@ void Enemy::Update()
 	case 11:
 		sprintf(str, "산갈치%d", E_type[0]);
 		img = IMG->Add(str);
-		range = 50;
+		range = 80;
 		break;
 	case 12:
 		sprintf(str, "boss_초롱아귀%d", E_type[2]);

@@ -29,7 +29,8 @@ void Ingame::Init()
 		OBJ->Add(new Enemy(7), "Boss")->pos = CENTER;
 		OBJ->Add(new Enemy(1), "Enemy1")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
 		OBJ->Add(new Enemy(2), "Enemy2")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		enemy_count = 2;
+		OBJ->Add(new Enemy(2), "Enemy3")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		enemy_count = 3;
 		score = 0;
 		GameOver = false;
 		break;
@@ -52,7 +53,8 @@ void Ingame::Init()
 		OBJ->Add(new Enemy(12), "Boss")->pos = CENTER;
 		OBJ->Add(new Enemy(10), "Enemy1")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
 		OBJ->Add(new Enemy(11), "Enemy2")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		enemy_count = 2;
+		OBJ->Add(new Enemy(11), "Enemy3")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		enemy_count = 3;
 		GameOver = false;
 		break;
 	}
