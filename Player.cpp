@@ -129,9 +129,9 @@ void Player::Render()
 {
 	main_col->Draw();
 	bg2->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
-	bg->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1,D3DCOLOR_RGBA(255,255,255,bg_alpha));
+	bg->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1, D3DCOLOR_RGBA(255, 255, 255, bg_alpha));
 	if (!Ingame::GameOver && !Ingame::GameClear)
-		img->Render(pos, RT_ZERO, { 1,1 }, D3DXToRadian(rot), 0.38);
+		img->Render(pos, RT_ZERO, { 1,1 }, D3DXToRadian(rot), 0.38, D3DCOLOR_RGBA(255, 255, 255, 255));
 }
 
 void Player::Release()
@@ -360,7 +360,8 @@ void Player::InputKey()
 void Player::Hurt()
 {
 	pos = start;
-	speed = 3;
+	speed = 0;
+
 	for (int x = CELLSIZE_X - 1; x != -1; --x)
 	{
 		for (int y = CELLSIZE_Y - 1; y != -1; --y)
@@ -369,6 +370,7 @@ void Player::Hurt()
 			{
 				DrawArea(2);
 				hp -= 1;
+				speed = 3;
 				isHurt = false;
 			}
 		}

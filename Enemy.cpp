@@ -79,7 +79,26 @@ void Enemy::Update()
 		if (Ingame::GameOver || Ingame::GameClear || !Ingame::GamePause)
 		{
 			for (int i = 0; i < speed; i++)
+			{
 				pos += dir;
+				if (pos.x < L)
+					RANDOM->Reflex(&dir, V2(-1, 0));
+				if (pos.x > R)
+					RANDOM->Reflex(&dir, V2(1, 0));
+				if (pos.y < T)
+					RANDOM->Reflex(&dir, V2(0, -1));
+				if (pos.y > B)
+					RANDOM->Reflex(&dir, V2(0, 1));
+
+				if (Player::cell[int(pos.x) + 1][int(pos.y)] == 2)
+					RANDOM->Reflex(&dir, V2(1, 0));
+				if (Player::cell[int(pos.x) - 1][int(pos.y)] == 2)
+					RANDOM->Reflex(&dir, V2(-1, 0));
+				if (Player::cell[int(pos.x)][int(pos.y) + 1] == 2)
+					RANDOM->Reflex(&dir, V2(0, 1));
+				if (Player::cell[int(pos.x)][int(pos.y) - 1] == 2)
+					RANDOM->Reflex(&dir, V2(0, -1));
+			}
 		}
 	}
 
@@ -154,7 +173,6 @@ void Enemy::Update()
 		range = 110;
 		break;
 	case 8:
-		speed = 0;
 		if (during >= 2)
 		{
 			switch (motion)
@@ -188,7 +206,6 @@ void Enemy::Update()
 				break;
 			case 4:
 				speed = 0;
-				range = 145;
 				img = IMG->Add("boss_상어1");
 				t4 += DT;
 				if (t4 > 0.15)
@@ -228,6 +245,7 @@ void Enemy::Update()
 		{
 			sprintf(str, "boss_상어등%d", E_type[0]);
 			img = IMG->Add(str);
+			range = 50;
 		}
 		break;
 	case 10:
@@ -249,38 +267,13 @@ void Enemy::Update()
 
 	main_col->Set(pos, 16 * size.x, 16 * size.y);
 
-	POINT c = { trunc(pos.x) - x_gap, trunc(pos.y) - y_gap };
-
-	for (int y = -range; y <= range; y++)
+	if (Player::cell[(int)pos.x][(int)pos.y] == 1)
 	{
-		for (int x = -range; x <= range; x++)
-		{
-			if (pos.x + x < L)
-				RANDOM->Reflex(&dir, V2(-1, 0));
-			if (pos.x + x > R)
-				RANDOM->Reflex(&dir, V2(1, 0));
-			if (pos.y + y < T)
-				RANDOM->Reflex(&dir, V2(0, -1));
-			if (pos.y + y > B)
-				RANDOM->Reflex(&dir, V2(0, 1));
-
-			if (Player::cell[int(pos.x + x) + 1][int(pos.y + y)] == 2)
-				RANDOM->Reflex(&dir, V2(1, 0));
-			if (Player::cell[int(pos.x + x) - 1][int(pos.y + y)] == 2)
-				RANDOM->Reflex(&dir, V2(-1, 0));
-			if (Player::cell[int(pos.x + x)][int(pos.y + y) + 1] == 2)
-				RANDOM->Reflex(&dir, V2(0, 1));
-			if (Player::cell[int(pos.x + x)][int(pos.y + y) - 1] == 2)
-				RANDOM->Reflex(&dir, V2(0, -1));
-
-			if (Player::cell[c.x + x][c.y + y] == 1)
-			{
-				Player::isHurt = true;
-			}
-		}
+		Player::isHurt = true;
 	}
 
-	if (Player::cell[c.x][c.y] == 3)
+
+	if (Player::cell[(int)pos.x][(int)pos.y] == 3)
 		if (type < 12)
 			flag = true;
 

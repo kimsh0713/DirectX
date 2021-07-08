@@ -27,9 +27,9 @@ void Ingame::Init()
 		Ingame::stage = 1;
 		Player::coloring_per = 0;
 		OBJ->Add(new Enemy(7), "Boss")->pos = CENTER;
-		OBJ->Add(new Enemy(1), "Enemy1")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		OBJ->Add(new Enemy(2), "Enemy2")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		OBJ->Add(new Enemy(2), "Enemy3")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(1), "Enemy1")->pos = { float(RANDOM->INT(L + 100, R - 100)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(2), "Enemy2")->pos = { float(RANDOM->INT(L + 100, R - 100)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(2), "Enemy3")->pos = { float(RANDOM->INT(L + 100, R - 100)),float(RANDOM->INT(T + 1,B - 1)) };
 		enemy_count = 3;
 		score = 0;
 		GameOver = false;
@@ -39,9 +39,9 @@ void Ingame::Init()
 		Ingame::stage = 2;
 		Player::coloring_per = 0;
 		OBJ->Add(new Enemy(8), "Boss")->pos = CENTER;
-		OBJ->Add(new Enemy(3), "Enemy1")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		OBJ->Add(new Enemy(4), "Enemy2")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		OBJ->Add(new Enemy(5), "Enemy3")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(3), "Enemy1")->pos = { float(RANDOM->INT(L + 100, R - 100)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(4), "Enemy2")->pos = { float(RANDOM->INT(L + 100, R - 100)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(5), "Enemy3")->pos = { float(RANDOM->INT(L + 100, R - 100)),float(RANDOM->INT(T + 1,B - 1)) };
 		shark = OBJ->Find("Boss");
 		enemy_count = 3;
 		GameOver = false;
@@ -51,9 +51,9 @@ void Ingame::Init()
 		Ingame::stage = 3;
 		Player::coloring_per = 0;
 		OBJ->Add(new Enemy(12), "Boss")->pos = CENTER;
-		OBJ->Add(new Enemy(10), "Enemy1")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		OBJ->Add(new Enemy(11), "Enemy2")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
-		OBJ->Add(new Enemy(11), "Enemy3")->pos = { float(RANDOM->INT(L + 1, R - 1)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(10), "Enemy1")->pos = { float(RANDOM->INT(L + 100, R - 100)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(11), "Enemy2")->pos = { float(RANDOM->INT(L + 100, R - 100)),float(RANDOM->INT(T + 1,B - 1)) };
+		OBJ->Add(new Enemy(11), "Enemy3")->pos = { float(RANDOM->INT(L + 100, R - 100)),float(RANDOM->INT(T + 1,B - 1)) };
 		enemy_count = 3;
 		GameOver = false;
 		break;

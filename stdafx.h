@@ -29,7 +29,7 @@ const int y_gap = 0;
 
 const RECT RT_ZERO = { 0,0,0,0 };
 
-static bool WIN = true;
+static bool WIN = false;
 static float time_scale = 1;
 static int score = 0;
 
