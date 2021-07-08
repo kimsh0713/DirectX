@@ -8,9 +8,9 @@ public:
 
     Texture* img;
     vector<Effect*> fxs;
-    Timer* delay;
     V2 dir;
 
+    float timer;
     int type;
     float speed;
 

@@ -17,7 +17,7 @@ public:
     V2 dir;
 
     float front;
-
+    float ShotDelay = 0;
     int motion = 0;
 
     float cool;
@@ -50,6 +50,7 @@ public:
         {17,16},
         {7,7},
         {16,8},
+        {15,15},
     };
 
     // Obj을(를) 통해 상속됨

@@ -40,6 +40,10 @@ public:
     int def = 0;
     int num = 0;
 
+    Texture* eat_effect;
+    float effect_time = 0;
+    vector<Effect*> eat;
+
     float rot;
 
     bool draw_mode = false;

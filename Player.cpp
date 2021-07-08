@@ -29,6 +29,7 @@ void Player::Init()
 		break;
 	}
 
+	eat_effect = IMG->Add("eat_effect");
 
 	img = IMG->Add("player");
 
@@ -118,6 +119,13 @@ void Player::Update()
 	//		rot = 0;
 	//}
 
+	effect_time += DT;
+	if (effect_time > 0.1)
+	{
+		eat.emplace_back(new Effect(eat_effect, pos, 0, 1));
+		effect_time = 0;
+	}
+
 	if (Ingame::GameStart)
 	{
 		if (!Ingame::GameOver && !Ingame::GameClear && !Ingame::GamePause)
@@ -131,7 +139,11 @@ void Player::Render()
 	bg2->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1);
 	bg->Render(CENTER, RT_ZERO, { 1,1 }, 0, 1, D3DCOLOR_RGBA(255, 255, 255, bg_alpha));
 	if (!Ingame::GameOver && !Ingame::GameClear)
+	{
 		img->Render(pos, RT_ZERO, { 1,1 }, D3DXToRadian(rot), 0.38, D3DCOLOR_RGBA(255, 255, 255, 255));
+		for (auto& i : eat)
+			i->Render();
+	}
 }
 
 void Player::Release()
@@ -404,7 +416,6 @@ void Player::DrawArea(int draw_flag)
 		start = pos;
 		return;
 	}
-
 	draw_mode = false;
 
 	D3DLOCKED_RECT lr;
@@ -472,7 +483,6 @@ void Player::DrawArea(int draw_flag)
 	}
 
 	bg->p->UnlockRect(0);
-
 	if (draw_flag != 1)
 		AutoFill();
 }
@@ -547,7 +557,6 @@ bool Player::FloodFill(V2 pos, int target, int change)
 
 	draw_mode = true;
 	DrawArea(1);
-
 	return true;
 }
 

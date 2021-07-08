@@ -171,6 +171,17 @@ void Enemy::Update()
 		sprintf(str, "boss_오징어%d", E_type[0]);
 		img = IMG->Add(str);
 		range = 110;
+		ShotDelay += DT;
+		if (ShotDelay > 4)
+		{
+			speed = 0;
+			int angle = 360 / 30;
+			for (int i = 0; i < 360; i += angle)
+				OBJ->Add(new Bullet(1, { cos(D3DXToRadian(i)), sin(D3DXToRadian(i)) }), "Bullet")->pos = pos;
+			ShotDelay = 0;
+		}
+		else
+			speed = 1.6;
 		break;
 	case 8:
 		if (during >= 2)
@@ -178,7 +189,6 @@ void Enemy::Update()
 			switch (motion)
 			{
 			case 0:
-				range = 50;
 				img = IMG->Add("등장경고");
 				if (back_alpha < 245)
 					back_alpha += 10;
@@ -215,6 +225,7 @@ void Enemy::Update()
 				}
 				break;
 			case 5:
+				size = sizes[9];
 				img = IMG->Add("boss_상어2");
 				t4 += DT;
 				if (t4 > 0.15)
@@ -233,6 +244,7 @@ void Enemy::Update()
 				}
 				break;
 			case 7:
+				size = sizes[7];
 				speed = 2.25;
 				during = 0;
 				motion = 0;

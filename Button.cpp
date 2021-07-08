@@ -44,9 +44,6 @@ void Button::Update()
 		g = 255;
 		b = 255;
 	}
-	//char str[256];
-	//sprintf(str, "%s\n", SOUND->sound ? "TRUE" : "FALSE");
-	//OutputDebugStringA(str);
 }
 
 void Button::Render()

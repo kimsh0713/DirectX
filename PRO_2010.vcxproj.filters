@@ -69,11 +69,11 @@
     <Filter Include="CLASS\ScrollMap">
       <UniqueIdentifier>{039ea4ab-bd08-4d59-b499-4fef2ea7ab71}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Mgr\SOUND\TIME">
-      <UniqueIdentifier>{1ef2df51-b263-4293-b67f-afc6163ca258}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\scene">
       <UniqueIdentifier>{600ee4ba-e1a8-4a60-86af-be86d438655b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mgr\TIME">
+      <UniqueIdentifier>{1ef2df51-b263-4293-b67f-afc6163ca258}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +171,7 @@
       <Filter>Mgr\SOUND</Filter>
     </ClCompile>
     <ClCompile Include="TimeMgr.cpp">
-      <Filter>Mgr\SOUND\TIME</Filter>
+      <Filter>Mgr\TIME</Filter>
     </ClCompile>
     <ClCompile Include="RandomMgr.cpp">
       <Filter>Mgr\RANDOM</Filter>
@@ -258,7 +258,7 @@
       <Filter>Mgr\SOUND</Filter>
     </ClInclude>
     <ClInclude Include="TimeMgr.h">
-      <Filter>Mgr\SOUND\TIME</Filter>
+      <Filter>Mgr\TIME</Filter>
     </ClInclude>
     <ClInclude Include="RandomMgr.h">
       <Filter>Mgr\RANDOM</Filter>
