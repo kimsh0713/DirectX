@@ -96,6 +96,8 @@ public:
 	bool dive_type = false;
 	float dive_time = 0;
 
+	int stage2_score, stage3_score;
+
 	// PAUSE
 	Button* continue_button;
 	Button* main_button;

@@ -122,6 +122,7 @@ void Player::Update()
 	effect_time += DT;
 	if (effect_time > 0.1)
 	{
+		if(pos != start)
 		eat.emplace_back(new Effect(eat_effect, pos, 0, 1));
 		effect_time = 0;
 	}
@@ -372,7 +373,6 @@ void Player::InputKey()
 void Player::Hurt()
 {
 	pos = start;
-	speed = 0;
 
 	for (int x = CELLSIZE_X - 1; x != -1; --x)
 	{

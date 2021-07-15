@@ -62,6 +62,16 @@ void Ingame::Init()
 	OBJ->Add(new Player, "player")->pos = { 800,WINY };;
 	player = OBJ->Find("player");
 
+	switch (type)
+	{
+	case 2:
+		stage2_score = Player::Score;
+		break;
+	case 3:
+		stage3_score = Player::Score;
+		break;
+	}
+
 	Ui_gst_tank = IMG->Add("gst_tank");
 	Ui_gst_dive = IMG->Add("gst_dive");
 	blind = IMG->Add("blind");
@@ -133,7 +143,7 @@ void Ingame::Init()
 
 	//playtime->flag = true;
 	// OVER_BUTTON
-	gov_agbtn = new Button(IMG->Add("gov_agbtn"), IMG->Add("gov_agbtn cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gov_agbtn->Off();  if (type == 1) { SCENE->Set("stage1"); } else if (type == 2) { SCENE->Set("stage2"); } else if (type == 3) { SCENE->Set("stage3"); }player->hp = 3; GameOver = false; GameClear = false; Reset(); });
+	gov_agbtn = new Button(IMG->Add("gov_agbtn"), IMG->Add("gov_agbtn cson"), { WINX / 2 + 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gov_agbtn->Off();  if (type == 1) { SCENE->Set("stage1"); Player::Score = 0; } else if (type == 2) { SCENE->Set("stage2");  Player::Score = stage2_score; } else if (type == 3) { SCENE->Set("stage3"); Player::Score = stage3_score; }player->hp = 3; GameOver = false; GameClear = false; Reset(); });
 	gov_backbtn = new Button(IMG->Add("gov_backbtn"), IMG->Add("gcl_backbtn_cson"), { WINX / 2 - 280, WINY / 2 + 280 }, "", 348, 176, 0.18, [&]()->void { Player::bg_alpha = 255; gov_backbtn->Off(); GameOver = false; GameClear = false;  SCENE->Set("title"); Reset(); Player::Score = 0; });
 	gov_agbtn->Off();
 	gov_backbtn->Off();

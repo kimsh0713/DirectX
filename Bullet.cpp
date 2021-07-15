@@ -20,13 +20,6 @@ void Bullet::Init()
 
 void Bullet::Update()
 {
-	//timer += DT;
-	//if (timer > 0.1)
-	//{
-	//	fxs.emplace_back(new Effect(img, pos, 0, 1));
-	//	timer = 0;
-	//}
-
 	pos += dir * speed;
 	main_col->Set(pos, 40, 40);
 }
