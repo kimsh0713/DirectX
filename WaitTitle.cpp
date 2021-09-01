@@ -20,7 +20,7 @@ void WaitTitle::Init()
 
 void WaitTitle::Update()
 {
-	if (INPUT->Down('S'))
+	if (INPUT->AnyKey())
 	{
 		SCENE->Set("title");
 	}
